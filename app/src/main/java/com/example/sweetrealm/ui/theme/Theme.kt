@@ -271,6 +271,7 @@ fun SweetRealmTheme(
   MaterialTheme(
     colorScheme = colorScheme,
     typography = typography,
+    shapes = shapes,
     content = content
   )
 }

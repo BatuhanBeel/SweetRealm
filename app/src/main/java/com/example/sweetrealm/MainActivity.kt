@@ -29,11 +29,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             SweetRealmTheme {
                 Column {
-                    AsyncImage(
-                        modifier = Modifier.size(200.dp,200.dp),
-                        model = "https://images.unsplash.com/photo-1550710901-459a4a16d4a8?ixlib=rb-4.0.3\\u0026q=80\\u0026fm=jpg\\u0026crop=entropy\\u0026cs=tinysrgb\\u0026w=1080\\u0026fit=max",
-                        contentDescription = null)
-                    Text(text = "deneme")
+
                 }
 
             }
