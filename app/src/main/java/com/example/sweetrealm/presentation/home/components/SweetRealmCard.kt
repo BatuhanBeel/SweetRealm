@@ -17,19 +17,15 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.StarBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CardElevation
-import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ShapeDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -48,17 +44,20 @@ val NewHeight = 20.dp
 
 @Composable
 fun SweetRealmCard(
+    id: Int,
     name: String,
     image: Int,
+    price: Float,
     isNew: Boolean,
     isFavorite: Boolean,
-    onClick: () -> Unit,
-    onClickFavorite: () -> Unit,
+    onClick: (Int) -> Unit,
+    onClickFavorite: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Box(modifier = modifier
-        .padding(CardPadding)
-    ){
+    Box(
+        modifier = modifier
+            .padding(CardPadding)
+    ) {
         Card(
             modifier = Modifier
                 .size(CardWidth, CardHeight),
@@ -69,11 +68,11 @@ fun SweetRealmCard(
         ) {
             Box(modifier = Modifier
                 .fillMaxSize()
-                .clickable { onClick() }
+                .clickable { onClick(id) }
             ) {
                 IconButton(
                     modifier = Modifier.align(Alignment.TopEnd),
-                    onClick = { onClickFavorite() }
+                    onClick = { onClickFavorite(id) }
                 ) {
                     Icon(
                         imageVector = if (isFavorite) Icons.Default.Star else Icons.Default.StarBorder,
@@ -81,9 +80,10 @@ fun SweetRealmCard(
                         contentDescription = "Favorite Icon"
                     )
                 }
-                Column(modifier = Modifier
-                    .align(Alignment.Center)
-                    .padding(top = 16.dp),
+                Column(
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .padding(top = 16.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
@@ -95,11 +95,16 @@ fun SweetRealmCard(
                             .size(75.dp)
                             .clip(CircleShape)
                     )
-                    Text(text = name, style = MaterialTheme.typography.bodyLarge)
+                    Text(text = name, style = MaterialTheme.typography.titleMedium)
+                    Text(
+                        text = "$ $price",
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.tertiary
+                    )
                 }
             }
         }
-        if (isNew){
+        if (isNew) {
             Box(modifier = Modifier
                 .size(NewWidth, NewHeight)
                 .offset {
@@ -116,7 +121,7 @@ fun SweetRealmCard(
                 )
                 .align(Alignment.TopCenter),
                 contentAlignment = Alignment.Center
-            ){
+            ) {
                 Text(
                     text = stringResource(R.string.new_item),
                     style = MaterialTheme.typography.labelMedium,
@@ -136,8 +141,10 @@ private fun SweetRealmCardPreview() {
         Surface {
             Column {
                 SweetRealmCard(
-                    name = "Cake",
+                    id = 0,
+                    name = "Ice Cream",
                     image = R.drawable.ice_cream,
+                    price = 10.25f,
                     isNew = true,
                     isFavorite = false,
                     onClick = { },

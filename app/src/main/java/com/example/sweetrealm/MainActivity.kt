@@ -20,6 +20,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.example.sweetrealm.presentation.category.CategoryScreen
+import com.example.sweetrealm.presentation.home.HomeScreen
 import com.example.sweetrealm.ui.theme.SweetRealmTheme
 
 class MainActivity : ComponentActivity() {
@@ -28,10 +30,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             SweetRealmTheme {
-                Column {
-
-                }
-
+                CategoryScreen()
             }
         }
     }
