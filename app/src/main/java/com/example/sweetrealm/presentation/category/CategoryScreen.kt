@@ -3,6 +3,7 @@ package com.example.sweetrealm.presentation.category
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -37,6 +39,7 @@ import com.example.sweetrealm.ui.theme.SweetRealmTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CategoryScreen() {
+    val state = rememberLazyGridState()
     Column {
         Row(
             modifier = Modifier
@@ -73,13 +76,14 @@ fun CategoryScreen() {
             )
         }
         LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxHeight()
+            state = state,
+            columns = GridCells.FixedSize(158.dp),
+            contentPadding = PaddingValues(4.dp),
+            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier.fillMaxHeight()
         ) {
             items(categoryList){
-                CategoryCard(id = it.id, name = it.name, image = it.image, onClick = {})
+                CategoryCard(id = it.id, name = it.name, image = it.image, onClick = {}, modifier = Modifier.background(MaterialTheme.colorScheme.surface))
             }
         }
     }
@@ -89,10 +93,7 @@ fun CategoryScreen() {
 @Composable
 private fun CategoryScreenPreview() {
     SweetRealmTheme {
-        Surface(
-            Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.surface)) {
+        Surface {
             CategoryScreen()
         }
     }

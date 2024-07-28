@@ -1,8 +1,9 @@
 package com.example.sweetrealm.presentation.category.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -32,8 +33,9 @@ fun CategoryCard(
 ) {
     Card(
         modifier = modifier
-            .size(150.dp,130.dp),
-        shape = RoundedCornerShape(4.dp),
+            .padding(8.dp)
+            .size(150.dp,150.dp),
+        shape = RoundedCornerShape(8.dp),
         elevation = CardDefaults.elevatedCardElevation(),
         onClick = { onClick(id) }
     ) {
@@ -42,8 +44,7 @@ fun CategoryCard(
             contentScale = ContentScale.Crop,
             contentDescription = "Category Image",
             modifier = Modifier
-                .height(105.dp)
-                .fillMaxWidth()
+                .weight(0.8f)
                 .clip(RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp))
 
         )
@@ -53,7 +54,7 @@ fun CategoryCard(
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center,
             modifier = Modifier
-                .padding(vertical = 4.dp)
+                .weight(0.2f)
                 .fillMaxWidth()
         )
     }
@@ -64,7 +65,10 @@ fun CategoryCard(
 private fun CategoryCardPreview() {
     SweetRealmTheme {
         Surface {
-            CategoryCard(id = 0, name = "Cake", image = R.drawable.cake, onClick = {  })
+            Column(Modifier.padding(8.dp).fillMaxSize()) {
+                CategoryCard(id = 0, name = "Cake", image = R.drawable.cake, onClick = {  })
+            }
+
         }
     }
 }
