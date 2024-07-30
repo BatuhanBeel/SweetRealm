@@ -10,6 +10,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.sweetrealm.presentation.cart.CartScreen
 import com.example.sweetrealm.presentation.category.CategoryScreen
 import com.example.sweetrealm.ui.theme.SweetRealmTheme
 
@@ -19,7 +20,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             SweetRealmTheme {
-                CategoryScreen()
+                CartScreen()
             }
         }
     }
