@@ -46,7 +46,10 @@ import com.example.sweetrealm.R
 import com.example.sweetrealm.ui.theme.SweetRealmTheme
 
 @Composable
-fun DetailScreen() {
+fun DetailScreen(
+    argumentId: Int,
+    onPopUpClick: () -> Unit
+) {
 
     var quantityState by rememberSaveable {
         mutableIntStateOf(0)
@@ -125,6 +128,7 @@ fun DetailScreen() {
             isFavorite = false,
             details = "Our really easy chocolate cake recipe is perfect for birthdays. Each serving provides 477 kcal, 6.5g protein, 56g carbohydrates (of which 40g sugars), 25g fat (of which 10.5g saturates), 2.5g fibre and 0.6g salt.",
             ingredients = "Chocolate, Vanilla, Eggs, Butter, Cream",
+            onPopUpClicked = onPopUpClick,
             modifier = Modifier.padding(innerPadding)
         )
     }
@@ -139,6 +143,7 @@ fun DetailBody(
     isFavorite: Boolean,
     details: String,
     ingredients: String,
+    onPopUpClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
 
@@ -156,7 +161,7 @@ fun DetailBody(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
 
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = { onPopUpClicked() }) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     tint = MaterialTheme.colorScheme.secondary,
@@ -251,7 +256,7 @@ fun DetailBody(
 private fun DetailScreenPreview() {
     SweetRealmTheme {
         Surface {
-            DetailScreen()
+            DetailScreen(argumentId = 0, onPopUpClick = {  })
         }
     }
 }
