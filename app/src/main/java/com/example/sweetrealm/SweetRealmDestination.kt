@@ -41,7 +41,7 @@ object Detail: SweetRealmDestination {
     override val icon: ImageVector
         get() = Icons.Filled.Details
     const val detailArg = "detailArg"
-    val routeWithArgs = "${route}/${detailArg}"
+    val routeWithArgs = "${route}/{${detailArg}}"
     val arguments = listOf(
         navArgument(detailArg){ type = NavType.IntType }
     )

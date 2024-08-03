@@ -48,12 +48,13 @@ import com.example.sweetrealm.ui.theme.SweetRealmTheme
 @Composable
 fun DetailScreen(
     argumentId: Int,
-    onPopUpClick: () -> Unit
+    onPopUpClicked: () -> Unit
 ) {
 
     var quantityState by rememberSaveable {
         mutableIntStateOf(0)
     }
+    println("$argumentId")
     Scaffold(
         bottomBar = {
             HorizontalDivider(color = MaterialTheme.colorScheme.outline)
@@ -128,7 +129,8 @@ fun DetailScreen(
             isFavorite = false,
             details = "Our really easy chocolate cake recipe is perfect for birthdays. Each serving provides 477 kcal, 6.5g protein, 56g carbohydrates (of which 40g sugars), 25g fat (of which 10.5g saturates), 2.5g fibre and 0.6g salt.",
             ingredients = "Chocolate, Vanilla, Eggs, Butter, Cream",
-            onPopUpClicked = onPopUpClick,
+            onPopUpClicked = onPopUpClicked,
+            onFavoriteClicked = {  },
             modifier = Modifier.padding(innerPadding)
         )
     }
@@ -144,6 +146,7 @@ fun DetailBody(
     details: String,
     ingredients: String,
     onPopUpClicked: () -> Unit,
+    onFavoriteClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
 
@@ -171,7 +174,7 @@ fun DetailBody(
                         .background(MaterialTheme.colorScheme.secondaryContainer)
                 )
             }
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = { onFavoriteClicked() }) {
                 Icon(
                     imageVector = if (isFavorite) Icons.Default.Star else Icons.Outlined.StarBorder,
                     tint = MaterialTheme.colorScheme.tertiary,
@@ -256,7 +259,9 @@ fun DetailBody(
 private fun DetailScreenPreview() {
     SweetRealmTheme {
         Surface {
-            DetailScreen(argumentId = 0, onPopUpClick = {  })
+            DetailScreen(argumentId = 0) {
+                
+            }
         }
     }
 }

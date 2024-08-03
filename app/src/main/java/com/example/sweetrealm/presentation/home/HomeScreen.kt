@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.sweetrealm.R
 import com.example.sweetrealm.domain.model.Sweet
 import com.example.sweetrealm.presentation.home.components.SweetCollection
@@ -29,7 +30,11 @@ import com.example.sweetrealm.presentation.home.components.SweetRealmCard
 import com.example.sweetrealm.ui.theme.SweetRealmTheme
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    itemOnClick: (Int) -> Unit,
+    viewModel: HomeViewModel = hiltViewModel()
+) {
+
     val scrollState = rememberScrollState()
     Column(
         modifier = Modifier
@@ -37,17 +42,17 @@ fun HomeScreen() {
             .padding(vertical = 32.dp)
             .fillMaxSize()
     ) {
-        YourFavoritesBody(itemList = dessertList, itemOnClick = { println("item click") }, itemOnClickFavorite = { println("favorite click") })
+        YourFavoritesBody(itemList = dessertList, itemOnClick = itemOnClick, itemOnClickFavorite = { viewModel.itemClickedFavorite(it) })
         HorizontalDivider(
             modifier = Modifier.padding(vertical = 4.dp),
             color = MaterialTheme.colorScheme.outlineVariant
         )
-        MostPreferredBody(itemList = dessertList, itemOnClick = {  })
+        MostPreferredBody(itemList = dessertList, itemOnClick = itemOnClick)
         HorizontalDivider(
             modifier = Modifier.padding(vertical = 4.dp),
             color = MaterialTheme.colorScheme.outlineVariant
         )
-        NewlyAddedBody(itemList = dessertList, itemOnClick = {  }, itemOnClickFavorite = {  })
+        NewlyAddedBody(itemList = dessertList, itemOnClick = { itemOnClick(it) }, itemOnClickFavorite = { viewModel.itemClickedFavorite(it) })
     }
 }
 
@@ -161,11 +166,11 @@ private fun HomeScreenPreview() {
                 .fillMaxSize()
                 .background(Color.White)
         ) {
-            HomeScreen()
+
         }
     }
 }
 val dessertList = listOf(
-    Sweet(0,"Ice Cream", R.drawable.ice_cream, 10f, "", ""),
-    Sweet(1,"Ice Cream", R.drawable.ice_cream, 10f, "", "")
+    Sweet(0,"Ice Cream", R.drawable.ice_cream, 10f, "IceCream" ,"", ""),
+    Sweet(1,"Ice Cream", R.drawable.ice_cream, 10f, "IceCream","", "")
 )

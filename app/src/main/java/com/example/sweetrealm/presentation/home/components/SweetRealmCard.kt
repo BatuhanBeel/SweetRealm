@@ -72,16 +72,17 @@ fun SweetRealmCard(
                 .fillMaxSize()
                 .clickable { onClick(id) }
             ) {
-                IconButton(
-                    modifier = Modifier.align(Alignment.TopEnd),
-                    onClick = { onClickFavorite(id) }
-                ) {
-                    Icon(
-                        imageVector = if (isFavorite) Icons.Default.Star else Icons.Default.StarBorder,
-                        tint = MaterialTheme.colorScheme.tertiary,
-                        contentDescription = "Favorite Icon"
-                    )
-                }
+
+                Icon(
+                    imageVector = if (isFavorite) Icons.Default.Star else Icons.Default.StarBorder,
+                    tint = MaterialTheme.colorScheme.tertiary,
+                    contentDescription = "Favorite Icon",
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .align(Alignment.TopEnd)
+                        .clickable { onClickFavorite(id) }
+                )
+
                 Column(
                     modifier = Modifier
                         .align(Alignment.Center)

@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -44,7 +45,7 @@ fun CategoryCard(
             contentScale = ContentScale.Crop,
             contentDescription = "Category Image",
             modifier = Modifier
-                .weight(0.8f)
+                .height(125.dp)
                 .clip(RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp))
 
         )
@@ -54,7 +55,7 @@ fun CategoryCard(
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center,
             modifier = Modifier
-                .weight(0.2f)
+                .height(25.dp)
                 .fillMaxWidth()
         )
     }

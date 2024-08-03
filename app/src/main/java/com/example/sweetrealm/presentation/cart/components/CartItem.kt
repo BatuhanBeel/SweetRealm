@@ -97,6 +97,7 @@ fun CartItem(
                     contentDescription = "Decrease Quantity",
                     modifier = Modifier
                         .padding(4.dp)
+                        .clip(CircleShape)
                         .clickable { onDecreaseClicked() }
                 )
 
@@ -117,6 +118,7 @@ fun CartItem(
                     contentDescription = "Increase Quantity",
                     modifier = Modifier
                         .padding(4.dp)
+                        .clip(CircleShape)
                         .clickable { onIncreaseClicked() }
                 )
 

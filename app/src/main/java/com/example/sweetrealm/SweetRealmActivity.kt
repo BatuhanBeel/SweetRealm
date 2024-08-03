@@ -25,7 +25,9 @@ import com.example.sweetrealm.presentation.components.SweetRealmTabRow
 import com.example.sweetrealm.presentation.detail.DetailScreen
 import com.example.sweetrealm.presentation.home.HomeScreen
 import com.example.sweetrealm.ui.theme.SweetRealmTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SweetRealmActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +53,12 @@ fun SweetRealmApp() {
                     currentDestination?.route == Category.route ||
                     currentDestination?.route == Cart.route
                 ) {
-                    SweetRealmTabRow(allScreens = SweetRealmTabRowScreens, onTabSelected = { navController.navigate(it.route) }, currentScreen = currentScreen, modifier = Modifier.systemBarsPadding())
+                    SweetRealmTabRow(
+                        allScreens = SweetRealmTabRowScreens,
+                        onTabSelected = { navController.navigate(it.route) },
+                        currentScreen = currentScreen,
+                        modifier = Modifier.systemBarsPadding()
+                    )
                 }
             }
         ) { innerPadding ->
@@ -71,7 +78,9 @@ fun SweetRealmNavHost(
         modifier = modifier
     ) {
         composable(route = Home.route){
-            HomeScreen()
+            HomeScreen(
+                itemOnClick = { navController.navigateToDetailScreen(it) }
+            )
         }
 
         composable(route = Category.route){
@@ -82,16 +91,25 @@ fun SweetRealmNavHost(
             CartScreen()
         }
 
-        composable(route = Detail.routeWithArgs, arguments = Detail.arguments){ navBackStackEntry ->
+        composable(
+            route = Detail.routeWithArgs,
+            arguments = Detail.arguments,
+            deepLinks = listOf()
+        ){ navBackStackEntry ->
             val navArg = navBackStackEntry.arguments?.getInt(Detail.detailArg)
             if(navArg != null){
                 DetailScreen(
                     argumentId = navArg,
-                    onPopUpClick = { navController.navigateUp() }
+                    onPopUpClicked = { navController.navigateUp() }
                 )
             }
         }
+    }
+}
 
+private fun NavHostController.navigateToDetailScreen(detailArg: Int) {
+    this.navigate("${Detail.route}/${detailArg}"){
+        launchSingleTop = true
     }
 }
 
@@ -101,7 +119,7 @@ private fun SweetRealmAppPreview() {
     SweetRealmTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
             Column {
-
+                SweetRealmApp()
             }
         }
     }

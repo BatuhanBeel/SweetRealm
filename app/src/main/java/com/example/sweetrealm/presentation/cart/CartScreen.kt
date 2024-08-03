@@ -76,7 +76,7 @@ fun CartScreen() {
         },
         bottomBar = {
             Column {
-                HorizontalDivider(color = MaterialTheme.colorScheme.outline)
+                HorizontalDivider(thickness = 2.dp)
                 Box(modifier = Modifier
                     .padding(vertical = 4.dp, horizontal = 8.dp)
                     .height(52.dp)
