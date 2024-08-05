@@ -1,5 +1,6 @@
 package com.example.sweetrealm.presentation.home
 
+import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -157,7 +158,16 @@ fun NewlyAddedBody(
     }
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = true,
+    device = "spec:id=reference_tablet,shape=Normal,width=1280,height=800,unit=dp,dpi=240"
+)
+@Preview(showBackground = true,
+    device = "spec:id=reference_foldable,shape=Normal,width=673,height=841,unit=dp,dpi=420"
+)
+@Preview(showBackground = true,
+    device = "spec:id=reference_phone,shape=Normal,width=411,height=891,unit=dp,dpi=420",
+    uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL
+)
 @Composable
 private fun HomeScreenPreview() {
     SweetRealmTheme{
@@ -166,7 +176,7 @@ private fun HomeScreenPreview() {
                 .fillMaxSize()
                 .background(Color.White)
         ) {
-
+            HomeScreen(itemOnClick = {  })
         }
     }
 }

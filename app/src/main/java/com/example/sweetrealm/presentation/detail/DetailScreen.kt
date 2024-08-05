@@ -28,10 +28,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -42,19 +40,23 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.sweetrealm.R
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.sweetrealm.ui.theme.SweetRealmTheme
 
 @Composable
 fun DetailScreen(
     argumentId: Int,
-    onPopUpClicked: () -> Unit
+    onPopUpClicked: () -> Unit,
+    viewModel: DetailViewModel = hiltViewModel()
 ) {
 
-    var quantityState by rememberSaveable {
-        mutableIntStateOf(0)
+    val sweet by viewModel.sweet.collectAsStateWithLifecycle()
+
+    LaunchedEffect(key1 = argumentId) {
+        viewModel.loadSweet(argumentId)
     }
-    println("$argumentId")
+
     Scaffold(
         bottomBar = {
             HorizontalDivider(color = MaterialTheme.colorScheme.outline)
@@ -73,10 +75,7 @@ fun DetailScreen(
                     textAlign = TextAlign.Center,
                     modifier = Modifier.weight(0.20f)
                 )
-                IconButton(onClick = { if(quantityState > 0){
-                    quantityState--
-                }
-                }) {
+                IconButton(onClick = { viewModel.onEvent(DetailEvent.OnDecreaseClick) }) {
                     Icon(
                         imageVector = Icons.Filled.Remove,
                         tint = MaterialTheme.colorScheme.secondary,
@@ -88,11 +87,11 @@ fun DetailScreen(
                     )
                 }
                 Text(
-                    text = quantityState.toString(), style = MaterialTheme.typography.titleLarge.copy(
+                    text = viewModel.quantity.toString(), style = MaterialTheme.typography.titleLarge.copy(
                         fontWeight = FontWeight.Medium
                     )
                 )
-                IconButton(onClick = { quantityState++ }) {
+                IconButton(onClick = { viewModel.onEvent(DetailEvent.OnIncreaseClick) }) {
                     Icon(
                         imageVector = Icons.Filled.Add,
                         tint = MaterialTheme.colorScheme.secondary,
@@ -104,6 +103,7 @@ fun DetailScreen(
                     )
                 }
                 Button(
+                    enabled = viewModel.quantity > 0,
                     shape = RoundedCornerShape(50),
                     colors = ButtonDefaults.buttonColors()
                         .copy(containerColor = MaterialTheme.colorScheme.primary),
@@ -122,19 +122,20 @@ fun DetailScreen(
             }
         }
     ) { innerPadding ->
-        DetailBody(
-            name = "Cake",
-            image = R.drawable.cake,
-            price = 10.25f,
-            isFavorite = false,
-            details = "Our really easy chocolate cake recipe is perfect for birthdays. Each serving provides 477 kcal, 6.5g protein, 56g carbohydrates (of which 40g sugars), 25g fat (of which 10.5g saturates), 2.5g fibre and 0.6g salt.",
-            ingredients = "Chocolate, Vanilla, Eggs, Butter, Cream",
-            onPopUpClicked = onPopUpClicked,
-            onFavoriteClicked = {  },
-            modifier = Modifier.padding(innerPadding)
-        )
+        sweet?.let {
+            DetailBody(
+                name = it.name,
+                image = it.image,
+                price = it.price,
+                isFavorite = it.isFavorite,
+                details = it.details,
+                ingredients = it.ingredients,
+                onPopUpClicked = onPopUpClicked,
+                onFavoriteClicked = { viewModel.onEvent(DetailEvent.OnFavoriteClick) },
+                modifier = Modifier.padding(innerPadding)
+            )
+        }
     }
-
 }
 
 @Composable
@@ -259,9 +260,7 @@ fun DetailBody(
 private fun DetailScreenPreview() {
     SweetRealmTheme {
         Surface {
-            DetailScreen(argumentId = 0) {
-                
-            }
+            DetailScreen(argumentId = 0, onPopUpClicked = { /*TODO*/ })
         }
     }
 }

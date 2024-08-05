@@ -1,11 +1,12 @@
 package com.example.sweetrealm.domain
 
 import com.example.sweetrealm.domain.model.Sweet
+import com.example.sweetrealm.domain.model.SweetCart
 import kotlinx.coroutines.flow.Flow
 
 interface SweetRealmRepository {
 
-    suspend fun insertItem(item: Sweet)
+    suspend fun insertSweetItem(item: Sweet)
 
     fun getItemById(itemId: Int): Sweet
 
@@ -18,4 +19,9 @@ interface SweetRealmRepository {
     suspend fun itemFavoriteClicked(item: Sweet)
 
     suspend fun deleteAllItem()
+
+// Cart
+    fun getCartItem(itemId: Int): SweetCart?
+
+    suspend fun insertCartItem(item: SweetCart)
 }
