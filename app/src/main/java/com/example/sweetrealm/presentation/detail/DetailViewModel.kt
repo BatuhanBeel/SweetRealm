@@ -7,6 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sweetrealm.domain.SweetRealmRepository
 import com.example.sweetrealm.domain.model.Sweet
+import com.example.sweetrealm.domain.model.SweetCart
+import com.example.sweetrealm.presentation.cart.components.CartItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -61,6 +63,16 @@ class DetailViewModel @Inject constructor(
                             repository.insertCartItem(
                                 cartItem.copy(
                                     count = cartItem.count + quantity
+                                )
+                            )
+                        } else{
+                            repository.insertCartItem(
+                                SweetCart(
+                                    id = it.id,
+                                    name = it.name,
+                                    image = it.image,
+                                    price = it.price,
+                                    count = quantity
                                 )
                             )
                         }

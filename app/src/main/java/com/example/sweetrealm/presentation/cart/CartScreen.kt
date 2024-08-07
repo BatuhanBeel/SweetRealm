@@ -16,6 +16,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DeleteForever
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -25,24 +26,23 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.sweetrealm.presentation.cart.components.CartItem
-import com.example.sweetrealm.presentation.home.dessertList
 import com.example.sweetrealm.ui.theme.SweetRealmTheme
 
 @Composable
-fun CartScreen() {
-    var price by remember {
-        mutableFloatStateOf(0f)
-    }
+fun CartScreen(
+    viewModel: CartViewModel = hiltViewModel()
+) {
+    val cartState by viewModel.cartState
+    val price = viewModel.price
+
     val state = rememberLazyListState()
     Scaffold(
         topBar = {
@@ -121,23 +121,39 @@ fun CartScreen() {
             }
         }
     ) { innerPadding ->
-        LazyColumn(
-            state = state,
-            contentPadding = innerPadding,
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            modifier = Modifier
-                .padding(horizontal = 4.dp, vertical = 8.dp)
-                .fillMaxSize()
-        ) {
-            items(dessertList){
-                CartItem(
-                    name = it.name,
-                    imageId = it.image,
-                    price = it.price,
-                    isChecked = true,
-                    onCheckedClick = { /*TODO*/ },
-                    onDecreaseClicked = { /*TODO*/ },
-                    onIncreaseClicked = { /*TODO*/ })
+        if(cartState.isLoading){
+            Box(
+                modifier = Modifier
+                    .padding(innerPadding)
+                    .fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ){
+                CircularProgressIndicator(
+                    modifier = Modifier.width(64.dp),
+                    color = MaterialTheme.colorScheme.secondary,
+                    trackColor = MaterialTheme.colorScheme.surfaceVariant,
+                )
+            }
+        }
+        else{
+            LazyColumn(
+                state = state,
+                contentPadding = innerPadding,
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier
+                    .padding(horizontal = 4.dp, vertical = 8.dp)
+                    .fillMaxSize()
+            ) {
+                items(cartState.shoppingList){
+                    CartItem(
+                        name = it.name,
+                        imageId = it.image,
+                        price = it.price,
+                        isChecked = true,
+                        onCheckedClick = {  },
+                        onDecreaseClicked = { /*TODO*/ },
+                        onIncreaseClicked = { /*TODO*/ })
+                }
             }
         }
     }

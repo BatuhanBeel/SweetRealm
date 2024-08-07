@@ -33,6 +33,8 @@ interface SweetDao {
     @Delete
     suspend fun deleteItem(item: Sweet)
 
+    @Query("SELECT * FROM cart_table")
+    fun getAllCartItem(): Flow<List<SweetCart>>
 
     @Query("SELECT * FROM cart_table WHERE :itemId == id")
     fun getCartItemById(itemId: Int): SweetCart

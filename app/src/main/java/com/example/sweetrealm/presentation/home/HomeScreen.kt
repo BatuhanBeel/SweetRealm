@@ -1,7 +1,5 @@
 package com.example.sweetrealm.presentation.home
 
-import android.content.res.Configuration
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -14,21 +12,17 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.sweetrealm.R
 import com.example.sweetrealm.domain.model.Sweet
 import com.example.sweetrealm.presentation.home.components.SweetCollection
 import com.example.sweetrealm.presentation.home.components.SweetRealmCard
-import com.example.sweetrealm.ui.theme.SweetRealmTheme
 
 @Composable
 fun HomeScreen(
@@ -158,28 +152,6 @@ fun NewlyAddedBody(
     }
 }
 
-@Preview(showBackground = true,
-    device = "spec:id=reference_tablet,shape=Normal,width=1280,height=800,unit=dp,dpi=240"
-)
-@Preview(showBackground = true,
-    device = "spec:id=reference_foldable,shape=Normal,width=673,height=841,unit=dp,dpi=420"
-)
-@Preview(showBackground = true,
-    device = "spec:id=reference_phone,shape=Normal,width=411,height=891,unit=dp,dpi=420",
-    uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL
-)
-@Composable
-private fun HomeScreenPreview() {
-    SweetRealmTheme{
-        Surface(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.White)
-        ) {
-            HomeScreen(itemOnClick = {  })
-        }
-    }
-}
 val dessertList = listOf(
     Sweet(0,"Ice Cream", R.drawable.ice_cream, 10f, "IceCream" ,"", ""),
     Sweet(1,"Ice Cream", R.drawable.ice_cream, 10f, "IceCream","", "")

@@ -37,6 +37,10 @@ class SweetRealmRepositoryImpl(
         dao.deleteAllItem()
     }
 
+    override fun getAllCartItems(): Flow<List<SweetCart>> {
+        return dao.getAllCartItem()
+    }
+
     override fun getCartItem(itemId: Int): SweetCart {
         return dao.getCartItemById(itemId)
     }
@@ -44,4 +48,6 @@ class SweetRealmRepositoryImpl(
     override suspend fun insertCartItem(item: SweetCart) {
         dao.insertCartItem(item)
     }
+
+
 }

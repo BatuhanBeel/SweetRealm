@@ -21,7 +21,14 @@ interface SweetRealmRepository {
     suspend fun deleteAllItem()
 
 // Cart
+
+    fun getAllCartItems(): Flow<List<SweetCart>>
+
     fun getCartItem(itemId: Int): SweetCart?
 
     suspend fun insertCartItem(item: SweetCart)
+
+    suspend fun deleteCartItem(item: SweetCart)
+
+    suspend fun deleteAllCartItem()
 }
