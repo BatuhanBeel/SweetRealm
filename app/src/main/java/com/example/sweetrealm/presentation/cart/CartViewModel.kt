@@ -32,60 +32,54 @@ class CartViewModel @Inject constructor(
     private fun getCartItems() {
         viewModelScope.launch(Dispatchers.IO) {
             repository.getAllCartItems().collect {
-                cartState.value = cartState.value.copy(
-                    shoppingList = it,
-                    isLoading = false
-                )
+                if(it.isNotEmpty()){
+                    cartState.value = cartState.value.copy(
+                        shoppingList = it,
+                        isLoading = false
+                    )
+                }
             }
         }
     }
 
     fun onEvent(event: CartEvent){
         when(event){
-            is CartEvent.OnSelectClick ->{
+            is CartEvent.OnCheckboxClick ->{
                 viewModelScope.launch(Dispatchers.IO) {
-                    val item = repository.getCartItem(event.itemId)
-                    item?.let {
-                        repository.insertCartItem(
-                            it.copy(
-                                isSelected = !it.isSelected
-                            )
+                    repository.insertCartItem(
+                        event.item.copy(
+                            isSelected = !event.item.isSelected
                         )
-                    }
+                    )
                 }
             }
             is CartEvent.OnIncreaseClick ->{
                 viewModelScope.launch(Dispatchers.IO) {
-                    val item = repository.getCartItem(event.itemId)
-                    item?.let {
-                        repository.insertCartItem(
-                            it.copy(
-                                count = it.count + 1
-                            )
+                    repository.insertCartItem(
+                        event.item.copy(
+                            count = event.item.count + 1
                         )
-                    }
+                    )
                 }
             }
             is CartEvent.OnDecreaseClick ->{
                 viewModelScope.launch(Dispatchers.IO) {
-                    val item = repository.getCartItem(event.itemId)
-                    item?.let {
-                        repository.insertCartItem(
-                            it.copy(
-                                count = it.count - 1
-                            )
+                    repository.insertCartItem(
+                        event.item.copy(
+                            count = event.item.count - 1
                         )
-                    }
+                    )
                 }
             }
             is CartEvent.OnDeleteAllClick -> {
                 viewModelScope.launch(Dispatchers.IO) {
-                    repository.de
+                    repository.deleteAllCartItem()
                 }
+            }
+            is CartEvent.OnGoToCheckoutClick -> {
+
             }
         }
 
     }
-
-
 }

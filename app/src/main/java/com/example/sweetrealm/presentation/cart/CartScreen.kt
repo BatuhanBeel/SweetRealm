@@ -150,9 +150,9 @@ fun CartScreen(
                         imageId = it.image,
                         price = it.price,
                         isChecked = true,
-                        onCheckedClick = {  },
-                        onDecreaseClicked = { /*TODO*/ },
-                        onIncreaseClicked = { /*TODO*/ })
+                        onCheckedClick = { viewModel.onEvent(CartEvent.OnCheckboxClick(it)) },
+                        onDecreaseClicked = { viewModel.onEvent(CartEvent.OnDecreaseClick(it)) },
+                        onIncreaseClicked = { viewModel.onEvent(CartEvent.OnIncreaseClick(it)) })
                 }
             }
         }

@@ -10,7 +10,7 @@ class SweetRealmRepositoryImpl(
     private val dao: SweetDao
 ): SweetRealmRepository {
     override suspend fun insertSweetItem(item: Sweet) {
-        dao.insertSweetItem(item)
+        dao.insertItem(item)
     }
 
     override fun getItemsFilterByNew(): Flow<List<Sweet>> {
@@ -30,7 +30,7 @@ class SweetRealmRepositoryImpl(
     }
 
     override suspend fun itemFavoriteClicked(item: Sweet) {
-        dao.insertSweetItem(item)
+        dao.insertItem(item)
     }
 
     override suspend fun deleteAllItem() {
@@ -49,5 +49,11 @@ class SweetRealmRepositoryImpl(
         dao.insertCartItem(item)
     }
 
+    override suspend fun deleteCartItem(item: SweetCart) {
+        dao.deleteCartItem(item)
+    }
 
+    override suspend fun deleteAllCartItem() {
+        dao.deleteAllCartItem()
+    }
 }
