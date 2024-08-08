@@ -6,13 +6,20 @@ import androidx.room.Query
 import androidx.room.Upsert
 import com.example.sweetrealm.domain.model.Sweet
 import com.example.sweetrealm.domain.model.SweetCart
+import com.example.sweetrealm.domain.model.SweetCategory
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface SweetDao {
+    //Home
+    @Query("SELECT * FROM sweet_table")
+    fun getAllItem(): Flow<List<Sweet>>
 
     @Query("SELECT * FROM sweet_table WHERE :itemId == id")
     fun getItemById(itemId: Int): Sweet
+
+    @Query("SELECT * FROM sweet_table WHERE name LIKE '%' || :name || '%'")
+    fun getItemsByName(name: String): Flow<List<Sweet>>
 
     @Query("SELECT * FROM sweet_table WHERE isNew")
     fun getItemsFilterByNew(): Flow<List<Sweet>>
@@ -31,6 +38,11 @@ interface SweetDao {
 
     @Delete
     suspend fun deleteItem(item: Sweet)
+
+    //Categories
+    @Query("SELECT * FROM category_table")
+    fun getAllCategories(): Flow<List<SweetCategory>>
+
 
     // Cart
     @Query("SELECT * FROM cart_table")

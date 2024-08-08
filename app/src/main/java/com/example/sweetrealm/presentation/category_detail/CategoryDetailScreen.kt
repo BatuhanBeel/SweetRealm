@@ -21,15 +21,18 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.sweetrealm.R
 import com.example.sweetrealm.domain.model.SweetCategory
 import com.example.sweetrealm.presentation.category_detail.components.CategoryDetailCard
@@ -39,9 +42,18 @@ import com.example.sweetrealm.ui.theme.SweetRealmTheme
 @Composable
 fun CategoryDetailScreen(
     navArgument: String,
-    onPopUpClick: () -> Unit
+    onItemClick: (Int) -> Unit,
+    onPopUpClick: () -> Unit,
+    viewModel: CategoryDetailViewModel = hiltViewModel()
 ) {
+
+    LaunchedEffect(key1 = navArgument) {
+        viewModel.getSweets(navArgument)
+    }
+
+    val categoryDetailState = viewModel.categoryDetailState
     val state = rememberLazyGridState()
+
     Column {
         Row(
             modifier = Modifier
@@ -51,7 +63,7 @@ fun CategoryDetailScreen(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
             ){
 
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = { onPopUpClick() }) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = "Back Icon",
@@ -60,6 +72,21 @@ fun CategoryDetailScreen(
                         .background(MaterialTheme.colorScheme.secondaryContainer)
                 )
             }
+            OutlinedTextField(
+                value = viewModel.query,
+                onValueChange = { viewModel.onEvent(CategoryDetailEvent.OnSearchQuery(it)) },
+                shape = RoundedCornerShape(8.dp),
+                leadingIcon = {
+                    Icon(imageVector = Icons.Filled.Search, contentDescription = "Search Icon")
+                },
+                placeholder = {
+                    Text(text = "Search")
+                },
+                prefix = {
+                    Text(text = "Search")
+                },
+                maxLines = 1
+            )
 
             SearchBar(
                 query = "",
@@ -84,8 +111,8 @@ fun CategoryDetailScreen(
             horizontalArrangement = Arrangement.Center,
             modifier = Modifier.fillMaxHeight()
         ) {
-            items(categoryList){
-                CategoryDetailCard(id = it.id, name = it.name, image = it.image, onClick = {}, modifier = Modifier.background(MaterialTheme.colorScheme.surface))
+            items(categoryDetailState.sweets){
+                CategoryDetailCard(id = it.id, name = it.name, image = it.image, onClick = onItemClick, modifier = Modifier.background(MaterialTheme.colorScheme.surface))
             }
         }
     }
@@ -96,7 +123,7 @@ fun CategoryDetailScreen(
 private fun CategoryDetailScreenPreview() {
     SweetRealmTheme {
         Surface {
-            CategoryDetailScreen(navArgument = "", onPopUpClick = {  })
+            CategoryDetailScreen(navArgument = "", onItemClick = {  }, onPopUpClick = {  })
         }
     }
 }

@@ -51,7 +51,7 @@ fun SweetRealmApp() {
         Scaffold(
             bottomBar = {
                 if (currentDestination?.route == Home.route ||
-                    currentDestination?.route == CategoryDetail.route ||
+                    currentDestination?.route == Category.route ||
                     currentDestination?.route == Cart.route
                 ) {
                     SweetRealmTabRow(
@@ -85,7 +85,11 @@ fun SweetRealmNavHost(
         }
 
         composable(route = Category.route){
-            CategoryScreen()
+            CategoryScreen(
+                viewAllOnClick = { argumentId ->
+                    navController.navigate("${CategoryDetail.route}/$argumentId")
+                }
+            )
         }
 
         composable(route = Cart.route){
@@ -115,6 +119,7 @@ fun SweetRealmNavHost(
             if(navArg != null){
                 CategoryDetailScreen(
                     navArgument = navArg,
+                    onItemClick = { navController.navigateToDetailScreen(it) },
                     onPopUpClick = { navController.navigateUp() }
                 )
             }
@@ -127,6 +132,7 @@ private fun NavHostController.navigateToDetailScreen(detailArg: Int) {
         launchSingleTop = true
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable

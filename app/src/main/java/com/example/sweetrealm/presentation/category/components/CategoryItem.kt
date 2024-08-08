@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -14,7 +15,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.sweetrealm.R
+import com.example.sweetrealm.ui.theme.SweetRealmTheme
 
 @Composable
 fun CategoryItem(
@@ -41,7 +45,18 @@ fun CategoryItem(
             textAlign = TextAlign.Center,
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,
-            modifier = Modifier.size(24.dp)
+            modifier = Modifier.size(width = 50.dp, height = 36.dp)
         )
+    }
+}
+
+@Preview
+@Composable
+private fun CategoryItemPreview() {
+    SweetRealmTheme {
+        Surface {
+            CategoryItem(name = "Ice Cream", image = R.drawable.ice_cream
+            )
+        }
     }
 }

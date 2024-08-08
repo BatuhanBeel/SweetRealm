@@ -2,7 +2,6 @@ package com.example.sweetrealm.presentation.category_detail.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -66,7 +65,7 @@ fun CategoryDetailCard(
 private fun CategoryCardPreview() {
     SweetRealmTheme {
         Surface {
-            Column(Modifier.padding(8.dp).fillMaxSize()) {
+            Column(Modifier.padding(8.dp)) {
                 CategoryDetailCard(id = 0, name = "Cake", image = R.drawable.cake, onClick = {  })
             }
 

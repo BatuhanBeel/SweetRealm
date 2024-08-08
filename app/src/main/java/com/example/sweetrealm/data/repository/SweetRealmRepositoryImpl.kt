@@ -4,11 +4,21 @@ import com.example.sweetrealm.data.data_source.SweetDao
 import com.example.sweetrealm.domain.SweetRealmRepository
 import com.example.sweetrealm.domain.model.Sweet
 import com.example.sweetrealm.domain.model.SweetCart
+import com.example.sweetrealm.domain.model.SweetCategory
 import kotlinx.coroutines.flow.Flow
 
 class SweetRealmRepositoryImpl(
     private val dao: SweetDao
 ): SweetRealmRepository {
+
+    override fun getAllItem(): Flow<List<Sweet>> {
+        return dao.getAllItem()
+    }
+
+    override fun getItemsByName(name: String): Flow<List<Sweet>> {
+        return dao.getItemsByName(name)
+    }
+
     override suspend fun insertSweetItem(item: Sweet) {
         dao.insertItem(item)
     }
@@ -37,6 +47,12 @@ class SweetRealmRepositoryImpl(
         dao.deleteAllItem()
     }
 
+    //Categories
+    override fun getAllCategories(): Flow<List<SweetCategory>> {
+        return dao.getAllCategories()
+    }
+
+    //Cart
     override fun getAllCartItems(): Flow<List<SweetCart>> {
         return dao.getAllCartItem()
     }

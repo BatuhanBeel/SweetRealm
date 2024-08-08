@@ -1,13 +1,13 @@
 package com.example.sweetrealm.presentation.category.components
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
@@ -17,7 +17,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -32,13 +32,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+
 import androidx.compose.ui.zIndex
 import com.example.sweetrealm.R
 import com.example.sweetrealm.domain.model.Sweet
 import com.example.sweetrealm.presentation.home.dessertList
 import com.example.sweetrealm.ui.theme.SweetRealmTheme
 
-val CARD_HEIGHT = 150.dp
+val CARD_HEIGHT = 130.dp
 val CARD_WIDTH = 360.dp
 
 @Composable
@@ -46,40 +47,43 @@ fun CategoryCard(
     name: String,
     image: Int,
     itemList: List<Sweet>,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val state = rememberLazyListState()
 
     Box(
+        contentAlignment = Alignment.TopCenter,
         modifier = modifier
+            .height(165.dp)
+            .clickable { onClick() }
     ) {
         Image(
             painter = painterResource(id = image),
             contentScale = ContentScale.Crop,
-            alignment = Alignment.TopCenter,
             contentDescription = "Category Image",
             modifier = Modifier
                 .zIndex(1f)
                 .size(60.dp)
                 .clip(CircleShape)
         )
-        Card(
+        ElevatedCard(
             shape = RoundedCornerShape(12.dp),
             modifier = Modifier
                 .size(CARD_WIDTH, CARD_HEIGHT)
-                .offset { IntOffset(0, 30) }
-                .background(MaterialTheme.colorScheme.surfaceVariant)
+                .offset { IntOffset(0, 30.dp.toPx().toInt()) }
         ) {
             Row(
                 modifier = Modifier
-                    .padding(horizontal = 8.dp)
-                    .size(36.dp),
+                    .padding(horizontal = 16.dp)
+                    .height(36.dp)
+                    .fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
                     text = name,
-                    style = MaterialTheme.typography.bodyMedium.copy(
+                    style = MaterialTheme.typography.bodyLarge.copy(
                         fontWeight = FontWeight.Medium
                     ),
                     color = MaterialTheme.colorScheme.secondary
@@ -89,14 +93,20 @@ fun CategoryCard(
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.secondary.copy(
                         alpha = 0.7f
-                    )
+                    ),
+                    modifier = Modifier.clickable {
+                        onClick()
+                    }
                 )
             }
             HorizontalDivider()
             LazyRow(
                 state = state,
                 contentPadding = PaddingValues(4.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier
+                    .padding(horizontal = 8.dp)
+                    .fillMaxWidth()
             ) {
                 items(itemList, key = {it.id}){
                     CategoryItem(name = it.name, image = it.image)
@@ -110,11 +120,12 @@ fun CategoryCard(
 @Composable
 private fun CategoryCardPreview() {
     SweetRealmTheme {
-        Surface(Modifier.fillMaxSize()) {
+        Surface {
             CategoryCard(
                 name = "Cake",
                 image = R.drawable.cake,
-                itemList = dessertList
+                itemList = dessertList,
+                onClick = {  }
             )
         }
     }
