@@ -35,6 +35,18 @@ object Cart: SweetRealmDestination {
         get() = Icons.Filled.ShoppingCart
 }
 
+object CategoryDetail: SweetRealmDestination {
+    override val route: String
+        get() = "category_detail"
+    override val icon: ImageVector
+        get() = Icons.Filled.Details
+    const val categoryDetailArg = "detailArg"
+    val routeWithArgs = "${CategoryDetail.route}/{${categoryDetailArg}}"
+    val arguments = listOf(
+        navArgument(categoryDetailArg){ type = NavType.StringType }
+    )
+}
+
 object Detail: SweetRealmDestination {
     override val route: String
         get() = "detail"

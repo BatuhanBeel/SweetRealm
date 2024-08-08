@@ -22,7 +22,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -30,18 +29,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.sweetrealm.presentation.cart.components.CartItem
-import com.example.sweetrealm.ui.theme.SweetRealmTheme
 
 @Composable
 fun CartScreen(
     viewModel: CartViewModel = hiltViewModel()
 ) {
     val cartState by viewModel.cartState
-    val price = viewModel.price
+    val price by viewModel.price
 
     val state = rememberLazyListState()
     Scaffold(
@@ -121,21 +118,7 @@ fun CartScreen(
             }
         }
     ) { innerPadding ->
-        if(cartState.isLoading){
-            Box(
-                modifier = Modifier
-                    .padding(innerPadding)
-                    .fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ){
-                CircularProgressIndicator(
-                    modifier = Modifier.width(64.dp),
-                    color = MaterialTheme.colorScheme.secondary,
-                    trackColor = MaterialTheme.colorScheme.surfaceVariant,
-                )
-            }
-        }
-        else{
+        if(!cartState.isLoading){
             LazyColumn(
                 state = state,
                 contentPadding = innerPadding,
@@ -156,16 +139,20 @@ fun CartScreen(
                 }
             }
         }
-    }
-}
+        else{
+            Box(
+                modifier = Modifier
+                    .padding(innerPadding)
+                    .fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ){
+                CircularProgressIndicator(
+                    modifier = Modifier.width(64.dp),
+                    color = MaterialTheme.colorScheme.secondary,
+                    trackColor = MaterialTheme.colorScheme.surfaceVariant,
+                )
+            }
 
-
-@Preview(showBackground = true)
-@Composable
-private fun CartScreenPreview() {
-    SweetRealmTheme {
-        Surface {
-            CartScreen()
         }
     }
 }

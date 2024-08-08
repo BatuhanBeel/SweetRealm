@@ -46,15 +46,15 @@ import com.example.sweetrealm.ui.theme.SweetRealmTheme
 
 @Composable
 fun DetailScreen(
-    argumentId: Int,
-    onPopUpClicked: () -> Unit,
+    navArgument: Int,
+    onPopUpClick: () -> Unit,
     viewModel: DetailViewModel = hiltViewModel()
 ) {
 
     val sweet by viewModel.sweet.collectAsStateWithLifecycle()
 
-    LaunchedEffect(key1 = argumentId) {
-        viewModel.loadSweet(argumentId)
+    LaunchedEffect(key1 = navArgument) {
+        viewModel.loadSweet(navArgument)
     }
 
     Scaffold(
@@ -130,7 +130,7 @@ fun DetailScreen(
                 isFavorite = it.isFavorite,
                 details = it.details,
                 ingredients = it.ingredients,
-                onPopUpClicked = onPopUpClicked,
+                onPopUpClicked = onPopUpClick,
                 onFavoriteClicked = { viewModel.onEvent(DetailEvent.OnFavoriteClick) },
                 modifier = Modifier.padding(innerPadding)
             )
@@ -260,7 +260,7 @@ fun DetailBody(
 private fun DetailScreenPreview() {
     SweetRealmTheme {
         Surface {
-            DetailScreen(argumentId = 0, onPopUpClicked = { /*TODO*/ })
+            DetailScreen(navArgument = 0, onPopUpClick = { /*TODO*/ })
         }
     }
 }

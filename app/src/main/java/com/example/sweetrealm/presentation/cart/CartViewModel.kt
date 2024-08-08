@@ -18,7 +18,7 @@ class CartViewModel @Inject constructor(
 ) : ViewModel() {
 
     var cartState = mutableStateOf(CartState())
-    var price by mutableFloatStateOf(
+    var price = mutableFloatStateOf(
         cartState.value.shoppingList
         .filter { it.isSelected }
         .map { it.price }

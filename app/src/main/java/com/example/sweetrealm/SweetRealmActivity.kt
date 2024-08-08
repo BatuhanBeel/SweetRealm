@@ -21,6 +21,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.sweetrealm.presentation.cart.CartScreen
 import com.example.sweetrealm.presentation.category.CategoryScreen
+import com.example.sweetrealm.presentation.category_detail.CategoryDetailScreen
 import com.example.sweetrealm.presentation.components.SweetRealmTabRow
 import com.example.sweetrealm.presentation.detail.DetailScreen
 import com.example.sweetrealm.presentation.home.HomeScreen
@@ -50,7 +51,7 @@ fun SweetRealmApp() {
         Scaffold(
             bottomBar = {
                 if (currentDestination?.route == Home.route ||
-                    currentDestination?.route == Category.route ||
+                    currentDestination?.route == CategoryDetail.route ||
                     currentDestination?.route == Cart.route
                 ) {
                     SweetRealmTabRow(
@@ -99,8 +100,22 @@ fun SweetRealmNavHost(
             val navArg = navBackStackEntry.arguments?.getInt(Detail.detailArg)
             if(navArg != null){
                 DetailScreen(
-                    argumentId = navArg,
-                    onPopUpClicked = { navController.navigateUp() }
+                    navArgument = navArg,
+                    onPopUpClick = { navController.navigateUp() }
+                )
+            }
+        }
+
+        composable(
+            route = CategoryDetail.routeWithArgs,
+            arguments = CategoryDetail.arguments,
+            deepLinks = listOf()
+        ){ navBackStackEntry ->
+            val navArg = navBackStackEntry.arguments?.getString(CategoryDetail.categoryDetailArg)
+            if(navArg != null){
+                CategoryDetailScreen(
+                    navArgument = navArg,
+                    onPopUpClick = { navController.navigateUp() }
                 )
             }
         }
