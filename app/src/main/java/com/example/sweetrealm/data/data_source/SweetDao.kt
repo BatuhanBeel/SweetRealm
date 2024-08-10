@@ -21,10 +21,10 @@ interface SweetDao {
     @Query("SELECT * FROM sweet_table WHERE name LIKE '%' || :name || '%'")
     fun getItemsByName(name: String): Flow<List<Sweet>>
 
-    @Query("SELECT * FROM sweet_table WHERE isNew")
+    @Query("SELECT * FROM sweet_table WHERE isNew == 1 ")
     fun getItemsFilterByNew(): Flow<List<Sweet>>
 
-    @Query("SELECT * FROM sweet_table WHERE isFavorite")
+    @Query("SELECT * FROM sweet_table WHERE isFavorite == 1")
     fun getItemsFilterByFavorite(): Flow<List<Sweet>>
 
     @Query("SELECT * FROM sweet_table WHERE :category == category")

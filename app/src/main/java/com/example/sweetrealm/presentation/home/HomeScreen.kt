@@ -1,5 +1,6 @@
 package com.example.sweetrealm.presentation.home
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -29,15 +30,16 @@ fun HomeScreen(
     itemOnClick: (Int) -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
-
+    val state = viewModel.state
     val scrollState = rememberScrollState()
+
     Column(
         modifier = Modifier
             .verticalScroll(scrollState)
             .padding(vertical = 32.dp)
             .fillMaxSize()
     ) {
-        YourFavoritesBody(itemList = dessertList, itemOnClick = itemOnClick, itemOnClickFavorite = { viewModel.itemClickedFavorite(it) })
+        YourFavoritesBody(itemList = state.favoritesList, itemOnClick = itemOnClick, itemOnClickFavorite = { viewModel.itemClickedFavorite(it) })
         HorizontalDivider(
             modifier = Modifier.padding(vertical = 4.dp),
             color = MaterialTheme.colorScheme.outlineVariant
@@ -47,7 +49,7 @@ fun HomeScreen(
             modifier = Modifier.padding(vertical = 4.dp),
             color = MaterialTheme.colorScheme.outlineVariant
         )
-        NewlyAddedBody(itemList = dessertList, itemOnClick = { itemOnClick(it) }, itemOnClickFavorite = { viewModel.itemClickedFavorite(it) })
+        NewlyAddedBody(itemList = state.newlyAddedList, itemOnClick = { itemOnClick(it) }, itemOnClickFavorite = { viewModel.itemClickedFavorite(it) })
     }
 }
 

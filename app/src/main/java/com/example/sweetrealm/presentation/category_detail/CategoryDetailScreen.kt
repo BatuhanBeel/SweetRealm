@@ -38,7 +38,6 @@ import com.example.sweetrealm.domain.model.SweetCategory
 import com.example.sweetrealm.presentation.category_detail.components.CategoryDetailCard
 import com.example.sweetrealm.ui.theme.SweetRealmTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CategoryDetailScreen(
     navArgument: String,
@@ -62,7 +61,6 @@ fun CategoryDetailScreen(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp)
             ){
-
             IconButton(onClick = { onPopUpClick() }) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -86,22 +84,6 @@ fun CategoryDetailScreen(
                     Text(text = "Search")
                 },
                 maxLines = 1
-            )
-
-            SearchBar(
-                query = "",
-                onQueryChange = {},
-                onSearch = {},
-                active = false,
-                onActiveChange = {},
-                shape = RoundedCornerShape(8.dp),
-                placeholder = {
-                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Icon(imageVector = Icons.Filled.Search, contentDescription = "Search Icon")
-                        Text(text = "Search")
-                    }
-                },
-                content = {}
             )
         }
         LazyVerticalGrid(

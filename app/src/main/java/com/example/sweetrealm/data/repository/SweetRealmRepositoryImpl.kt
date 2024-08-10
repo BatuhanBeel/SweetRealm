@@ -1,7 +1,7 @@
 package com.example.sweetrealm.data.repository
 
 import com.example.sweetrealm.data.data_source.SweetDao
-import com.example.sweetrealm.domain.SweetRealmRepository
+import com.example.sweetrealm.domain.repository.SweetRealmRepository
 import com.example.sweetrealm.domain.model.Sweet
 import com.example.sweetrealm.domain.model.SweetCart
 import com.example.sweetrealm.domain.model.SweetCategory

@@ -1,4 +1,4 @@
-package com.example.sweetrealm.domain
+package com.example.sweetrealm.domain.repository
 
 import com.example.sweetrealm.domain.model.Sweet
 import com.example.sweetrealm.domain.model.SweetCart

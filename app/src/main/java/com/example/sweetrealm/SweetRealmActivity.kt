@@ -14,11 +14,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.sweetrealm.domain.model.UserPreferences
+import com.example.sweetrealm.domain.repository.UserPreferencesRepository
 import com.example.sweetrealm.presentation.cart.CartScreen
 import com.example.sweetrealm.presentation.category.CategoryScreen
 import com.example.sweetrealm.presentation.category_detail.CategoryDetailScreen
@@ -27,6 +31,7 @@ import com.example.sweetrealm.presentation.detail.DetailScreen
 import com.example.sweetrealm.presentation.home.HomeScreen
 import com.example.sweetrealm.ui.theme.SweetRealmTheme
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SweetRealmActivity : ComponentActivity() {
