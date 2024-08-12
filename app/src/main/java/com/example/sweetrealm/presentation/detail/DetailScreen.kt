@@ -1,6 +1,5 @@
 package com.example.sweetrealm.presentation.detail
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -35,13 +34,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil.compose.AsyncImage
 import com.example.sweetrealm.ui.theme.SweetRealmTheme
 
 @Composable
@@ -125,10 +124,10 @@ fun DetailScreen(
         sweet?.let {
             DetailBody(
                 name = it.name,
-                image = it.image,
+                imageUrl = it.imageUrl,
                 price = it.price,
                 isFavorite = it.isFavorite,
-                details = it.details,
+                details = it.country,
                 ingredients = it.ingredients,
                 onPopUpClicked = onPopUpClick,
                 onFavoriteClicked = { viewModel.onEvent(DetailEvent.OnFavoriteClick) },
@@ -141,7 +140,7 @@ fun DetailScreen(
 @Composable
 fun DetailBody(
     name: String,
-    image: Int,
+    imageUrl: String,
     price: Float,
     isFavorite: Boolean,
     details: String,
@@ -184,8 +183,8 @@ fun DetailBody(
                 )
             }
         }
-        Image(
-            painter = painterResource(id = image),
+        AsyncImage(
+            model = imageUrl,
             contentScale = ContentScale.Crop,
             contentDescription = "Dessert Detail Image",
             modifier = Modifier
@@ -260,7 +259,15 @@ fun DetailBody(
 private fun DetailScreenPreview() {
     SweetRealmTheme {
         Surface {
-            DetailScreen(navArgument = 0, onPopUpClick = { /*TODO*/ })
+            DetailBody(
+                name = "Ice Cream",
+                imageUrl = "",
+                price = 10.25f,
+                isFavorite = true,
+                details = "detay yok",
+                ingredients = "her şey var",
+                onPopUpClicked = { /*TODO*/ },
+                onFavoriteClicked = { /*TODO*/ })
         }
     }
 }

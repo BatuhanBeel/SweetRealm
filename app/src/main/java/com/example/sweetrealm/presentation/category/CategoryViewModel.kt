@@ -8,6 +8,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.sweetrealm.domain.repository.SweetRealmRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -16,38 +18,30 @@ class CategoryViewModel @Inject constructor(
     private val repository: SweetRealmRepository
 ): ViewModel(){
 
-    var categoryState by mutableStateOf(CategoryState())
+    var state by mutableStateOf(CategoryState())
         private set
 
     init {
-        getCategories()
-        getSweets()
+        loadData()
     }
 
-    private fun getCategories(){
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.getAllCategories().collect { it ->
-                if (it.isNotEmpty()){
-                    categoryState = categoryState.copy(
-                        categories = it
+    private fun loadData(){
+        viewModelScope.launch {
+            val categoriesFlow = repository.getAllCategories().flowOn(Dispatchers.IO)
+            val sweetsFlow = repository.getAllItem().flowOn(Dispatchers.IO)
+            combine(
+                categoriesFlow,
+                sweetsFlow
+            ) { categories, sweets ->
+                Pair(categories, sweets)
+            }.collect { (categories, sweets) ->
+                if (categories.isNotEmpty() || sweets.isNotEmpty()) {
+                    state = state.copy(
+                        categories = categories,
+                        sweets = sweets
                     )
                 }
             }
         }
     }
-
-    private fun getSweets(){
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.getAllItem().collect {
-                if (it.isNotEmpty()){
-                    categoryState = categoryState.copy(
-                        sweets = it
-                    )
-                }
-            }
-        }
-    }
-
-
-
 }

@@ -6,12 +6,12 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "sweet_table")
 data class Sweet(
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 0 ,
+    val id: Int = 0,
     val name: String,
-    val image: Int,
+    val imageUrl: String,
     val price: Float,
     val category: String,
-    val details: String,
+    val country: String,
     val ingredients: String,
     val isFavorite: Boolean = false,
     val isNew: Boolean = false

@@ -1,27 +1,17 @@
 package com.example.sweetrealm.di
 
 import android.content.Context
-import androidx.datastore.core.DataStore
-import androidx.datastore.core.handlers.ReplaceFileCorruptionHandler
-import androidx.datastore.preferences.SharedPreferencesMigration
-import androidx.datastore.preferences.core.PreferenceDataStoreFactory
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.emptyPreferences
-import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.room.Room
 import com.example.sweetrealm.data.data_source.SweetDao
 import com.example.sweetrealm.data.data_source.SweetRealmDatabase
 import com.example.sweetrealm.data.repository.SweetRealmRepositoryImpl
-import com.example.sweetrealm.data.repository.UserPreferencesRepositoryImpl
 import com.example.sweetrealm.domain.repository.SweetRealmRepository
-import com.example.sweetrealm.domain.repository.UserPreferencesRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import javax.inject.Qualifier
 import javax.inject.Singleton

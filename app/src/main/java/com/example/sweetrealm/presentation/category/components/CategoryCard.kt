@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -32,11 +31,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-
 import androidx.compose.ui.zIndex
 import com.example.sweetrealm.R
 import com.example.sweetrealm.domain.model.Sweet
-import com.example.sweetrealm.presentation.home.dessertList
 import com.example.sweetrealm.ui.theme.SweetRealmTheme
 
 val CARD_HEIGHT = 130.dp
@@ -109,7 +106,7 @@ fun CategoryCard(
                     .fillMaxWidth()
             ) {
                 items(itemList, key = {it.id}){
-                    CategoryItem(name = it.name, image = it.image)
+                    CategoryItem(name = it.name, imageUrl = it.imageUrl)
                 }
             }
         }
@@ -123,8 +120,8 @@ private fun CategoryCardPreview() {
         Surface {
             CategoryCard(
                 name = "Cake",
-                image = R.drawable.cake,
-                itemList = dessertList,
+                image = R.drawable.chocolate_cake_image,
+                itemList = listOf(),
                 onClick = {  }
             )
         }

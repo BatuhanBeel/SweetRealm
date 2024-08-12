@@ -17,12 +17,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -94,7 +92,7 @@ fun CategoryDetailScreen(
             modifier = Modifier.fillMaxHeight()
         ) {
             items(categoryDetailState.sweets){
-                CategoryDetailCard(id = it.id, name = it.name, image = it.image, onClick = onItemClick, modifier = Modifier.background(MaterialTheme.colorScheme.surface))
+                CategoryDetailCard(id = it.id, name = it.name, imageUrl = it.imageUrl, onClick = onItemClick, modifier = Modifier.background(MaterialTheme.colorScheme.surface))
             }
         }
     }
@@ -115,8 +113,8 @@ val categoryList = listOf(
     SweetCategory(id = 1, name = "Ice Cream", image = R.drawable.ice_cream),
     SweetCategory(id = 2, name = "Ice Cream", image = R.drawable.ice_cream),
     SweetCategory(id = 3, name = "Ice Cream", image = R.drawable.ice_cream),
-    SweetCategory(id = 4, name = "Cake", image = R.drawable.cake),
-    SweetCategory(id = 5, name = "Cake", image = R.drawable.cake),
-    SweetCategory(id = 6, name = "Cake", image = R.drawable.cake),
-    SweetCategory(id = 7, name = "Cake", image = R.drawable.cake)
+    SweetCategory(id = 4, name = "Cake", image = R.drawable.chocolate_cake_image),
+    SweetCategory(id = 5, name = "Cake", image = R.drawable.chocolate_cake_image),
+    SweetCategory(id = 6, name = "Cake", image = R.drawable.chocolate_cake_image),
+    SweetCategory(id = 7, name = "Cake", image = R.drawable.chocolate_cake_image)
 )

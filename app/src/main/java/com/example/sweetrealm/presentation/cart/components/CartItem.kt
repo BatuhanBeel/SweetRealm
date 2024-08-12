@@ -32,6 +32,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.example.sweetrealm.R
 import com.example.sweetrealm.ui.theme.SweetRealmTheme
 
@@ -41,7 +42,7 @@ val NameWidth = 70.dp
 @Composable
 fun CartItem(
     name: String,
-    imageId: Int,
+    imageUrl: String,
     price: Float,
     isChecked: Boolean,
     onCheckedClick: () -> Unit,
@@ -61,8 +62,8 @@ fun CartItem(
                 checked = isChecked,
                 onCheckedChange = { onCheckedClick() }
             )
-            Image(
-                painter = painterResource(id = imageId),
+            AsyncImage(
+                model = imageUrl,
                 contentScale = ContentScale.Crop,
                 contentDescription = "Dessert Image Cart",
                 modifier = Modifier
@@ -145,7 +146,7 @@ private fun CartItemPreview() {
         Surface {
             CartItem(
                 name = "Cake",
-                imageId = R.drawable.cake,
+                imageUrl = "",
                 price = 10.25f,
                 isChecked = false,
                 onCheckedClick = { /*TODO*/ },

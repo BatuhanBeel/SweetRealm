@@ -20,6 +20,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.example.sweetrealm.R
 import com.example.sweetrealm.ui.theme.SweetRealmTheme
 
@@ -27,7 +28,7 @@ import com.example.sweetrealm.ui.theme.SweetRealmTheme
 fun CategoryDetailCard(
     id: Int,
     name: String,
-    image: Int,
+    imageUrl: String,
     onClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -39,8 +40,8 @@ fun CategoryDetailCard(
         elevation = CardDefaults.elevatedCardElevation(),
         onClick = { onClick(id) }
     ) {
-        Image(
-            painter = painterResource(id = image),
+        AsyncImage(
+            model = imageUrl,
             contentScale = ContentScale.Crop,
             contentDescription = "Category Image",
             modifier = Modifier
@@ -66,7 +67,7 @@ private fun CategoryCardPreview() {
     SweetRealmTheme {
         Surface {
             Column(Modifier.padding(8.dp)) {
-                CategoryDetailCard(id = 0, name = "Cake", image = R.drawable.cake, onClick = {  })
+                CategoryDetailCard(id = 0, name = "Cake", imageUrl = "", onClick = {  })
             }
 
         }

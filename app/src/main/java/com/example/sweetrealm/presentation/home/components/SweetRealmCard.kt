@@ -1,6 +1,5 @@
 package com.example.sweetrealm.presentation.home.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -18,7 +17,6 @@ import androidx.compose.material.icons.filled.StarBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -27,13 +25,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.example.sweetrealm.R
 import com.example.sweetrealm.ui.theme.SweetRealmTheme
 
@@ -48,7 +45,7 @@ val NewHeight = 20.dp
 fun SweetRealmCard(
     id: Int,
     name: String,
-    image: Int,
+    imageUrl: String,
     price: Float,
     isNew: Boolean,
     isFavorite: Boolean,
@@ -90,8 +87,8 @@ fun SweetRealmCard(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    Image(
-                        painter = painterResource(image),
+                    AsyncImage(
+                        model = imageUrl,
                         contentScale = ContentScale.Crop,
                         contentDescription = "Dessert Image",
                         modifier = Modifier
@@ -148,7 +145,7 @@ private fun SweetRealmCardPreview() {
                 SweetRealmCard(
                     id = 0,
                     name = "Ice Cream",
-                    image = R.drawable.ice_cream,
+                    imageUrl = "",
                     price = 10.25f,
                     isNew = true,
                     isFavorite = false,

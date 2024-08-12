@@ -52,6 +52,10 @@ class SweetRealmRepositoryImpl(
         return dao.getAllCategories()
     }
 
+    override suspend fun insertCategory(item: SweetCategory) {
+        dao.insertCategory(item)
+    }
+
     //Cart
     override fun getAllCartItems(): Flow<List<SweetCart>> {
         return dao.getAllCartItem()

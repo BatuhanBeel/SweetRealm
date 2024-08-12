@@ -2,6 +2,7 @@ package com.example.sweetrealm.data.data_source
 
 import androidx.room.Dao
 import androidx.room.Delete
+import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Upsert
 import com.example.sweetrealm.domain.model.Sweet
@@ -11,6 +12,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface SweetDao {
+
     //Home
     @Query("SELECT * FROM sweet_table")
     fun getAllItem(): Flow<List<Sweet>>
@@ -31,7 +33,7 @@ interface SweetDao {
     fun getItemsFilterByCategory(category: String): Flow<List<Sweet>>
 
     @Upsert
-    suspend fun insertItem(item: Sweet)
+    suspend fun insertItem(vararg items: Sweet)
 
     @Query("DELETE FROM sweet_table ")
     suspend fun deleteAllItem()
@@ -43,6 +45,9 @@ interface SweetDao {
     @Query("SELECT * FROM category_table")
     fun getAllCategories(): Flow<List<SweetCategory>>
 
+    @Insert
+    suspend fun insertCategory(vararg items: SweetCategory)
+
 
     // Cart
     @Query("SELECT * FROM cart_table")
@@ -52,7 +57,7 @@ interface SweetDao {
     fun getCartItemById(itemId: Int): SweetCart
 
     @Upsert
-    suspend fun insertCartItem(item: SweetCart)
+    suspend fun insertCartItem(vararg items: SweetCart)
 
     @Query("DELETE FROM cart_table")
     suspend fun deleteAllCartItem()

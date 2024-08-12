@@ -3,7 +3,8 @@ package com.example.sweetrealm.data.data_source
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.example.sweetrealm.R
+import com.example.sweetrealm.data.repository.sweetCategories
+import com.example.sweetrealm.data.repository.sweets
 import com.example.sweetrealm.di.DataModule
 import com.example.sweetrealm.domain.model.Sweet
 import com.example.sweetrealm.domain.model.SweetCart
@@ -14,7 +15,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Provider
 
-@Database(entities = [Sweet::class, SweetCategory::class, SweetCart::class], version = 2)
+@Database(entities = [Sweet::class, SweetCategory::class, SweetCart::class], version = 1)
 abstract class SweetRealmDatabase(): RoomDatabase() {
     abstract fun getDao(): SweetDao
 
@@ -27,9 +28,9 @@ abstract class SweetRealmDatabase(): RoomDatabase() {
             val dao = database.get().getDao()
 
             scope.launch(Dispatchers.IO){
-                dao.insertItem(Sweet(0,"Cake", R.drawable.cake, 10f, "Cake" ,"", "", isFavorite = false, isNew = true))
+                dao.insertItem(*sweets.toTypedArray())
+                dao.insertCategory(*sweetCategories.toTypedArray())
             }
-
         }
     }
 }

@@ -8,7 +8,7 @@ data class SweetCart(
     @PrimaryKey(autoGenerate = false)
     val id: Int,
     val name: String,
-    val image: Int,
+    val imageUrl: String,
     val price: Float,
     val count: Int,
     val isSelected: Boolean = true

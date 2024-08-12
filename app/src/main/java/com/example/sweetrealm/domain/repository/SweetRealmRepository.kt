@@ -31,6 +31,8 @@ interface SweetRealmRepository {
 
     fun getAllCategories(): Flow<List<SweetCategory>>
 
+    suspend fun insertCategory(item: SweetCategory)
+
     // Cart
 
     fun getAllCartItems(): Flow<List<SweetCart>>

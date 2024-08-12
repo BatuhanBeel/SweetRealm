@@ -130,7 +130,7 @@ fun CartScreen(
                 items(cartState.shoppingList){
                     CartItem(
                         name = it.name,
-                        imageId = it.image,
+                        imageUrl = it.imageUrl,
                         price = it.price,
                         isChecked = true,
                         onCheckedClick = { viewModel.onEvent(CartEvent.OnCheckboxClick(it)) },

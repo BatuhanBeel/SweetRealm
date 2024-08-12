@@ -69,7 +69,7 @@ class DetailViewModel @Inject constructor(
                                 SweetCart(
                                     id = it.id,
                                     name = it.name,
-                                    image = it.image,
+                                    imageUrl = it.imageUrl,
                                     price = it.price,
                                     count = quantity
                                 )
