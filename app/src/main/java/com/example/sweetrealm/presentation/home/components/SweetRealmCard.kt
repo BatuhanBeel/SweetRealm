@@ -6,6 +6,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -27,6 +30,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -36,7 +41,7 @@ import com.example.sweetrealm.ui.theme.SweetRealmTheme
 
 val CardPadding = 8.dp
 val CardWidth = 125.dp
-val CardHeight = 150.dp
+val CardHeight = 165.dp
 val NewWidth = 40.dp
 val NewHeight = 20.dp
 
@@ -65,9 +70,12 @@ fun SweetRealmCard(
                 defaultElevation = 3.dp
             )
         ) {
-            Box(modifier = Modifier
-                .fillMaxSize()
-                .clickable { onClick(id) }
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clickable { onClick(id) },
+
+                verticalArrangement = Arrangement.spacedBy(2.dp)
             ) {
 
                 Icon(
@@ -75,35 +83,51 @@ fun SweetRealmCard(
                     tint = MaterialTheme.colorScheme.tertiary,
                     contentDescription = "Favorite Icon",
                     modifier = Modifier
-                        .padding(8.dp)
-                        .align(Alignment.TopEnd)
+                        .padding(4.dp)
+                        .align(Alignment.End)
                         .clickable { onClickFavorite(id) }
                 )
-
-                Column(
+                AsyncImage(
+                    model = imageUrl,
+                    contentScale = ContentScale.Crop,
+                    contentDescription = "Dessert Image",
                     modifier = Modifier
-                        .align(Alignment.Center)
-                        .padding(top = 16.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                        .size(75.dp)
+                        .clip(CircleShape)
+                        .align(Alignment.CenterHorizontally)
+                )
+                Box(
+                    modifier = Modifier
+                        .padding(horizontal = 6.dp)
+                        .height(30.dp),
+                    contentAlignment = Alignment.Center
                 ) {
-                    AsyncImage(
-                        model = imageUrl,
-                        contentScale = ContentScale.Crop,
-                        contentDescription = "Dessert Image",
-                        modifier = Modifier
-                            .size(75.dp)
-                            .clip(CircleShape)
-                    )
-                    Text(text = name, style = MaterialTheme.typography.titleMedium)
                     Text(
-                        text = "$ $price",
-                        style = MaterialTheme.typography.labelLarge.copy(
+                        text = name,
+                        style = MaterialTheme.typography.bodySmall.copy(
                             fontWeight = FontWeight.SemiBold
                         ),
-                        color = MaterialTheme.colorScheme.tertiary
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        textAlign = TextAlign.Center,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier
+                            .fillMaxWidth()
                     )
                 }
+
+                Text(
+                    text = "$ $price",
+                    style = MaterialTheme.typography.labelLarge.copy(
+                        fontWeight = FontWeight.SemiBold
+                    ),
+                    color = MaterialTheme.colorScheme.tertiary,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .padding(bottom = 4.dp)
+                        .fillMaxWidth()
+                        .align(Alignment.CenterHorizontally)
+                )
             }
         }
         if (isNew) {

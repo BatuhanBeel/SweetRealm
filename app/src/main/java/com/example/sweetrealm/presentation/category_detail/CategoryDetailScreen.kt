@@ -108,13 +108,3 @@ private fun CategoryDetailScreenPreview() {
     }
 }
 
-val categoryList = listOf(
-    SweetCategory(id = 0, name = "Ice Cream", image = R.drawable.ice_cream),
-    SweetCategory(id = 1, name = "Ice Cream", image = R.drawable.ice_cream),
-    SweetCategory(id = 2, name = "Ice Cream", image = R.drawable.ice_cream),
-    SweetCategory(id = 3, name = "Ice Cream", image = R.drawable.ice_cream),
-    SweetCategory(id = 4, name = "Cake", image = R.drawable.chocolate_cake_image),
-    SweetCategory(id = 5, name = "Cake", image = R.drawable.chocolate_cake_image),
-    SweetCategory(id = 6, name = "Cake", image = R.drawable.chocolate_cake_image),
-    SweetCategory(id = 7, name = "Cake", image = R.drawable.chocolate_cake_image)
-)

@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -20,8 +19,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.AsyncImage
-import com.example.sweetrealm.R
 import com.example.sweetrealm.domain.model.Sweet
 import com.example.sweetrealm.presentation.home.components.SweetCollection
 import com.example.sweetrealm.presentation.home.components.SweetRealmCard
@@ -50,7 +47,7 @@ fun HomeScreen(
             color = MaterialTheme.colorScheme.outlineVariant
         )
 
-        MostPreferredBody(itemList = listOf(), itemOnClick = itemOnClick)
+        MostPreferredBody(itemList = state.favoritesList, itemOnClick = itemOnClick)
 
         HorizontalDivider(
             modifier = Modifier.padding(vertical = 4.dp),
@@ -71,11 +68,13 @@ fun YourFavoritesBody(
     itemOnClickFavorite: (Int) -> Unit
 ) {
     val yourFavoritesState = rememberLazyListState()
-    Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
+    Column(modifier = Modifier.padding(vertical = 8.dp)) {
         Text(
             text = "Your Favorites",
             color = MaterialTheme.colorScheme.primary,
-            style = MaterialTheme.typography.headlineMedium
+            style = MaterialTheme.typography.headlineMedium,
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
         )
         LazyRow(
             state = yourFavoritesState,
@@ -89,7 +88,7 @@ fun YourFavoritesBody(
                 SweetRealmCard(
                     id = it.id,
                     name = it.name,
-                    imageUrl = it.imageUrl.toString(),
+                    imageUrl = it.imageUrl,
                     price = it.price,
                     isNew = it.isNew,
                     isFavorite = it.isFavorite,
@@ -107,11 +106,13 @@ fun MostPreferredBody(
     itemOnClick: (Int) -> Unit
 ) {
     val mostPreferredState = rememberLazyListState()
-    Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
+    Column(modifier = Modifier.padding(vertical = 8.dp)) {
         Text(
             text = "Most Preferred",
             color = MaterialTheme.colorScheme.primary,
-            style = MaterialTheme.typography.headlineMedium
+            style = MaterialTheme.typography.headlineMedium,
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
         )
         LazyRow(
             state = mostPreferredState,
@@ -140,11 +141,13 @@ fun NewlyAddedBody(
     itemOnClickFavorite: (Int) -> Unit
 ) {
     val newlyAddedState = rememberLazyListState()
-    Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
+    Column(modifier = Modifier.padding(vertical = 8.dp)) {
         Text(
             text = "Newly Added",
             color = MaterialTheme.colorScheme.primary,
-            style = MaterialTheme.typography.headlineMedium
+            style = MaterialTheme.typography.headlineMedium,
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
         )
         LazyRow(
             state = newlyAddedState,
@@ -158,7 +161,7 @@ fun NewlyAddedBody(
                 SweetRealmCard(
                     id = it.id,
                     name = it.name,
-                    imageUrl = it.imageUrl.toString(),
+                    imageUrl = it.imageUrl,
                     price = it.price,
                     isNew = it.isNew,
                     isFavorite = it.isFavorite,

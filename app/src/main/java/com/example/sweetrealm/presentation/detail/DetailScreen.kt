@@ -32,7 +32,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -106,7 +105,7 @@ fun DetailScreen(
                     shape = RoundedCornerShape(50),
                     colors = ButtonDefaults.buttonColors()
                         .copy(containerColor = MaterialTheme.colorScheme.primary),
-                    onClick = { /*TODO*/ },
+                    onClick = { viewModel.onEvent(DetailEvent.AddToCardClick) },
                     modifier = Modifier
                         .weight(0.6f)
                 ) {
@@ -189,10 +188,6 @@ fun DetailBody(
             contentDescription = "Dessert Detail Image",
             modifier = Modifier
                 .size(250.dp)
-                .shadow(
-                    elevation = 1.dp,
-                    shape = CircleShape
-                )
                 .clip(CircleShape)
                 .align(Alignment.CenterHorizontally)
         )
@@ -225,7 +220,7 @@ fun DetailBody(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Text(
-                text = "Details",
+                text = "Country",
                 style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold),
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
             )

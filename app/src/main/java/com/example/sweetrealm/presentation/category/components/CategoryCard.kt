@@ -120,7 +120,7 @@ private fun CategoryCardPreview() {
         Surface {
             CategoryCard(
                 name = "Cake",
-                image = R.drawable.chocolate_cake_image,
+                image = 0,
                 itemList = listOf(),
                 onClick = {  }
             )

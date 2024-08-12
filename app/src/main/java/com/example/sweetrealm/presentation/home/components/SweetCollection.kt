@@ -2,8 +2,13 @@ package com.example.sweetrealm.presentation.home.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -13,6 +18,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -35,18 +43,31 @@ fun SweetCollection(
             contentScale = ContentScale.Crop,
             contentDescription = "Dessert Image",
             modifier = Modifier
-                .size(100.dp, 100.dp)
+                .size(90.dp, 90.dp)
                 .shadow(
-                    elevation = 5.dp,
+                    elevation = 3.dp,
                     shape = CircleShape,
                     spotColor = MaterialTheme.colorScheme.primary
                 )
         )
-        Text(
-            text = name,
-            color = MaterialTheme.colorScheme.onSurface,
-            style = MaterialTheme.typography.titleMedium
-        )
+        Box(
+            modifier = Modifier
+                .size(width = 90.dp, height = 20.dp),
+        ) {
+            Text(
+                text = name,
+                style = MaterialTheme.typography.bodySmall.copy(
+                    fontWeight = FontWeight.SemiBold
+                ),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                textAlign = TextAlign.Center,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier
+                    .fillMaxWidth()
+            )
+        }
+
     }
 }
 
