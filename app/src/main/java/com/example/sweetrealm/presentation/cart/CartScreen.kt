@@ -25,32 +25,44 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.sweetrealm.R
 import com.example.sweetrealm.presentation.cart.components.CartItem
 
 @Composable
 fun CartScreen(
     viewModel: CartViewModel = hiltViewModel()
 ) {
-    val cartState by viewModel.cartState
-    val price by viewModel.price
+    val cartState = viewModel.cartState
+    val totalPrice by remember(cartState) {
+        mutableFloatStateOf(
+            cartState.shoppingList
+                .filter { it.isSelected }
+                .map { it.price * it.count }
+                .sum()
+        )
+    }
 
     val state = rememberLazyListState()
     Scaffold(
         topBar = {
             Column {
-                Box(modifier = Modifier
-                    .padding(4.dp)
-                    .height(48.dp)
-                    .fillMaxWidth()
+                Box(
+                    modifier = Modifier
+                        .padding(4.dp)
+                        .height(48.dp)
+                        .fillMaxWidth()
                 ) {
                     Text(
-                        text = "Shopping Cart",
+                        text = stringResource(R.string.shopping_cart),
                         style = MaterialTheme.typography.titleLarge.copy(
                             fontWeight = FontWeight.Medium
                         ),
@@ -58,7 +70,7 @@ fun CartScreen(
                         modifier = Modifier.align(Alignment.Center)
                     )
                     IconButton(
-                        onClick = { /*TODO*/ },
+                        onClick = { viewModel.onEvent(CartEvent.OnDeleteAllClick) },
                         modifier = Modifier.align(Alignment.CenterEnd)
                     ) {
                         Icon(
@@ -74,12 +86,14 @@ fun CartScreen(
         bottomBar = {
             Column {
                 HorizontalDivider(thickness = 2.dp)
-                Box(modifier = Modifier
-                    .padding(vertical = 4.dp, horizontal = 8.dp)
-                    .height(52.dp)
-                    .fillMaxWidth()) {
+                Box(
+                    modifier = Modifier
+                        .padding(vertical = 4.dp, horizontal = 8.dp)
+                        .height(52.dp)
+                        .fillMaxWidth()
+                ) {
                     Text(
-                        text = "Total Price",
+                        text = stringResource(R.string.total_price),
                         style = MaterialTheme.typography.titleLarge.copy(
                             fontWeight = FontWeight.SemiBold
                         ),
@@ -87,7 +101,7 @@ fun CartScreen(
                         modifier = Modifier.align(Alignment.TopStart)
                     )
                     Text(
-                        text = "$ $price",
+                        text = "$ $totalPrice",
                         style = MaterialTheme.typography.titleLarge.copy(
                             fontWeight = FontWeight.SemiBold
                         ),
@@ -99,14 +113,14 @@ fun CartScreen(
                             containerColor = MaterialTheme.colorScheme.primary
                         ),
                         shape = RoundedCornerShape(8.dp),
-                        onClick = { /*TODO*/ },
+                        onClick = { viewModel.onEvent(CartEvent.OnGoToCheckoutClick) },
                         modifier = Modifier
                             .height(40.dp)
                             .width(200.dp)
                             .align(Alignment.CenterEnd)
                     ) {
                         Text(
-                            text = "Go To Checkout",
+                            text = stringResource(R.string.go_to_checkout),
                             style = MaterialTheme.typography.titleMedium.copy(
                                 fontWeight = FontWeight.Bold
                             ),
@@ -118,7 +132,7 @@ fun CartScreen(
             }
         }
     ) { innerPadding ->
-        if(!cartState.isLoading){
+        if (!cartState.isLoading) {
             LazyColumn(
                 state = state,
                 contentPadding = innerPadding,
@@ -127,25 +141,25 @@ fun CartScreen(
                     .padding(horizontal = 4.dp, vertical = 8.dp)
                     .fillMaxSize()
             ) {
-                items(cartState.shoppingList){
+                items(cartState.shoppingList, key = { it.id }) {
                     CartItem(
                         name = it.name,
                         imageUrl = it.imageUrl,
                         price = it.price,
-                        isChecked = true,
+                        count = it.count,
+                        isChecked = it.isSelected,
                         onCheckedClick = { viewModel.onEvent(CartEvent.OnCheckboxClick(it)) },
                         onDecreaseClicked = { viewModel.onEvent(CartEvent.OnDecreaseClick(it)) },
                         onIncreaseClicked = { viewModel.onEvent(CartEvent.OnIncreaseClick(it)) })
                 }
             }
-        }
-        else{
+        } else {
             Box(
                 modifier = Modifier
                     .padding(innerPadding)
                     .fillMaxSize(),
                 contentAlignment = Alignment.Center
-            ){
+            ) {
                 CircularProgressIndicator(
                     modifier = Modifier.width(64.dp),
                     color = MaterialTheme.colorScheme.secondary,

@@ -1,6 +1,5 @@
 package com.example.sweetrealm.presentation.category.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -26,39 +25,39 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import coil.compose.AsyncImage
 import com.example.sweetrealm.R
 import com.example.sweetrealm.domain.model.Sweet
 import com.example.sweetrealm.ui.theme.SweetRealmTheme
 
-val CARD_HEIGHT = 130.dp
+val CARD_HEIGHT = 150.dp
 val CARD_WIDTH = 360.dp
 
 @Composable
 fun CategoryCard(
     name: String,
-    image: Int,
+    imageUrl: String,
     itemList: List<Sweet>,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val state = rememberLazyListState()
-
+    val scrollState = rememberLazyListState()
     Box(
         contentAlignment = Alignment.TopCenter,
         modifier = modifier
             .height(165.dp)
             .clickable { onClick() }
     ) {
-        Image(
-            painter = painterResource(id = image),
+        AsyncImage(
+            model = imageUrl,
             contentScale = ContentScale.Crop,
-            contentDescription = "Category Image",
+            contentDescription = stringResource(R.string.category_image),
             modifier = Modifier
                 .zIndex(1f)
                 .size(60.dp)
@@ -68,7 +67,14 @@ fun CategoryCard(
             shape = RoundedCornerShape(12.dp),
             modifier = Modifier
                 .size(CARD_WIDTH, CARD_HEIGHT)
-                .offset { IntOffset(0, 30.dp.toPx().toInt()) }
+                .offset {
+                    IntOffset(
+                        0,
+                        30.dp
+                            .toPx()
+                            .toInt()
+                    )
+                }
         ) {
             Row(
                 modifier = Modifier
@@ -86,7 +92,7 @@ fun CategoryCard(
                     color = MaterialTheme.colorScheme.secondary
                 )
                 Text(
-                    text = "View all",
+                    text = stringResource(R.string.view_all),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.secondary.copy(
                         alpha = 0.7f
@@ -98,9 +104,10 @@ fun CategoryCard(
             }
             HorizontalDivider()
             LazyRow(
-                state = state,
+                state = scrollState,
                 contentPadding = PaddingValues(4.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
+                userScrollEnabled = false,
                 modifier = Modifier
                     .padding(horizontal = 8.dp)
                     .fillMaxWidth()
@@ -120,7 +127,7 @@ private fun CategoryCardPreview() {
         Surface {
             CategoryCard(
                 name = "Cake",
-                image = 0,
+                imageUrl = "",
                 itemList = listOf(),
                 onClick = {  }
             )

@@ -17,8 +17,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.sweetrealm.R
 import com.example.sweetrealm.domain.model.Sweet
 import com.example.sweetrealm.presentation.home.components.SweetCollection
 import com.example.sweetrealm.presentation.home.components.SweetRealmCard
@@ -70,7 +72,7 @@ fun YourFavoritesBody(
     val yourFavoritesState = rememberLazyListState()
     Column(modifier = Modifier.padding(vertical = 8.dp)) {
         Text(
-            text = "Your Favorites",
+            text = stringResource(R.string.your_favorites),
             color = MaterialTheme.colorScheme.primary,
             style = MaterialTheme.typography.headlineMedium,
             modifier = Modifier
@@ -108,7 +110,7 @@ fun MostPreferredBody(
     val mostPreferredState = rememberLazyListState()
     Column(modifier = Modifier.padding(vertical = 8.dp)) {
         Text(
-            text = "Most Preferred",
+            text = stringResource(R.string.most_preferred),
             color = MaterialTheme.colorScheme.primary,
             style = MaterialTheme.typography.headlineMedium,
             modifier = Modifier
@@ -143,7 +145,7 @@ fun NewlyAddedBody(
     val newlyAddedState = rememberLazyListState()
     Column(modifier = Modifier.padding(vertical = 8.dp)) {
         Text(
-            text = "Newly Added",
+            text = stringResource(R.string.newly_added),
             color = MaterialTheme.colorScheme.primary,
             style = MaterialTheme.typography.headlineMedium,
             modifier = Modifier

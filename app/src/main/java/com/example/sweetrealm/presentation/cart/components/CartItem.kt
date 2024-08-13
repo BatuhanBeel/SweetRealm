@@ -1,6 +1,6 @@
 package com.example.sweetrealm.presentation.cart.components
 
-import androidx.compose.foundation.Image
+import android.annotation.SuppressLint
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -23,11 +23,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -39,17 +42,23 @@ import com.example.sweetrealm.ui.theme.SweetRealmTheme
 val CartItemHeight = 80.dp
 val NameWidth = 70.dp
 
+@SuppressLint("UnrememberedMutableState")
 @Composable
 fun CartItem(
     name: String,
     imageUrl: String,
     price: Float,
+    count: Int,
     isChecked: Boolean,
     onCheckedClick: () -> Unit,
     onDecreaseClicked: () -> Unit,
     onIncreaseClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val totalPrice by remember(price,count){
+        mutableFloatStateOf(price * count)
+    }
+
     Column(modifier = modifier) {
         Row(
             modifier = Modifier
@@ -95,7 +104,7 @@ fun CartItem(
                 Icon(
                     imageVector = Icons.Filled.Remove,
                     tint = MaterialTheme.colorScheme.primary,
-                    contentDescription = "Decrease Quantity",
+                    contentDescription = stringResource(id = R.string.decrease_quantity),
                     modifier = Modifier
                         .padding(4.dp)
                         .clip(CircleShape)
@@ -103,7 +112,7 @@ fun CartItem(
                 )
 
                 Text(
-                    text = "10",
+                    text = "$count",
                     style = MaterialTheme.typography.bodyLarge.copy(
                         fontWeight = FontWeight.SemiBold
                     ),
@@ -116,7 +125,7 @@ fun CartItem(
                 Icon(
                     imageVector = Icons.Filled.Add,
                     tint = MaterialTheme.colorScheme.primary,
-                    contentDescription = "Increase Quantity",
+                    contentDescription = stringResource(id = R.string.increase_quantity),
                     modifier = Modifier
                         .padding(4.dp)
                         .clip(CircleShape)
@@ -125,7 +134,7 @@ fun CartItem(
 
             }
             Text(
-                text = "$ $price",
+                text = "$ $totalPrice",
                 style = MaterialTheme.typography.bodyLarge.copy(
                     fontWeight = FontWeight.SemiBold
                 ),
@@ -148,6 +157,7 @@ private fun CartItemPreview() {
                 name = "Cake",
                 imageUrl = "",
                 price = 10.25f,
+                count = 1,
                 isChecked = false,
                 onCheckedClick = { /*TODO*/ },
                 onDecreaseClicked = { /*TODO*/ },

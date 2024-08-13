@@ -31,8 +31,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.sweetrealm.R
-import com.example.sweetrealm.domain.model.SweetCategory
 import com.example.sweetrealm.presentation.category_detail.components.CategoryDetailCard
 import com.example.sweetrealm.ui.theme.SweetRealmTheme
 

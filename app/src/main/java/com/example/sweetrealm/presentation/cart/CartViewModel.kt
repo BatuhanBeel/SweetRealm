@@ -1,12 +1,14 @@
 package com.example.sweetrealm.presentation.cart
 
-import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sweetrealm.domain.repository.SweetRealmRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -15,23 +17,18 @@ class CartViewModel @Inject constructor(
     private val repository: SweetRealmRepository
 ) : ViewModel() {
 
-    var cartState = mutableStateOf(CartState())
-    var price = mutableFloatStateOf(
-        cartState.value.shoppingList
-        .filter { it.isSelected }
-        .map { it.price }
-        .sum()
-    )
+    var cartState by mutableStateOf(CartState())
 
     init {
-        getCartItems()
+        loadCartItems()
     }
 
-    private fun getCartItems() {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.getAllCartItems().collect {
+    private fun loadCartItems() {
+        viewModelScope.launch {
+            val items = repository.getAllCartItems().flowOn(Dispatchers.IO)
+            items.collect {
                 if(it.isNotEmpty()){
-                    cartState.value = cartState.value.copy(
+                    cartState = cartState.copy(
                         shoppingList = it,
                         isLoading = false
                     )
