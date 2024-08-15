@@ -8,5 +8,5 @@ data class SweetCategory(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     val name: String,
-    val imageUrl: String,
+    val imageId: Int,
 )

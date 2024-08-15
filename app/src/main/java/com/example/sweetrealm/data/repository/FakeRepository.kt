@@ -1,17 +1,18 @@
 package com.example.sweetrealm.data.repository
 
+import com.example.sweetrealm.R
 import com.example.sweetrealm.domain.model.Sweet
 import com.example.sweetrealm.domain.model.SweetCategory
 
 val sweetCategories = listOf(
-    SweetCategory(id = 1, name = "Cakes", imageUrl = "https://www.themealdb.com/images/media/meals/ywwrsp1511720277.jpg"),
-    SweetCategory(id = 2, name = "Cheesecake", imageUrl = ""),
-    SweetCategory(id = 3, name = "Cookies and Biscuits", imageUrl =""),
-    SweetCategory(id = 4, name = "Chocolate Desserts", imageUrl = ""),
-    SweetCategory(id = 5, name = "Pancakes and Waffles", imageUrl = ""),
-    SweetCategory(id = 6, name = "Pies and Tarts", imageUrl = ""),
-    SweetCategory(id = 7, name = "Puddings", imageUrl = ""),
-    SweetCategory(id = 8, name = "Miscellaneous", imageUrl = ""),
+    SweetCategory(id = 1, name = "Cakes", imageId = R.drawable.cake_category),
+    SweetCategory(id = 2, name = "Cheesecake", imageId = R.drawable.cheesecake_category),
+    SweetCategory(id = 3, name = "Cookies and Biscuits", imageId =R.drawable.cookies_and_biscuits_category),
+    SweetCategory(id = 4, name = "Chocolate Desserts", imageId = R.drawable.chocolate_category),
+    SweetCategory(id = 5, name = "Pancakes and Waffles", imageId = R.drawable.pancake_and_waffle_category),
+    SweetCategory(id = 6, name = "Pies and Tarts", imageId = R.drawable.pies_and_tarts_category),
+    SweetCategory(id = 7, name = "Puddings", imageId = R.drawable.puddings_category),
+    SweetCategory(id = 8, name = "Miscellaneous", imageId = R.drawable.miscellaneous_category),
 )
 
 val sweets = listOf(

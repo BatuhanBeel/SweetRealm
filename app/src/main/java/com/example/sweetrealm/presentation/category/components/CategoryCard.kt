@@ -4,12 +4,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -27,6 +27,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -42,7 +43,7 @@ val CARD_WIDTH = 360.dp
 @Composable
 fun CategoryCard(
     name: String,
-    imageUrl: String,
+    imageId: Int,
     itemList: List<Sweet>,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
@@ -51,11 +52,11 @@ fun CategoryCard(
     Box(
         contentAlignment = Alignment.TopCenter,
         modifier = modifier
-            .height(165.dp)
+            .height(180.dp)
             .clickable { onClick() }
     ) {
         AsyncImage(
-            model = imageUrl,
+            model = imageId,
             contentScale = ContentScale.Crop,
             contentDescription = stringResource(R.string.category_image),
             modifier = Modifier
@@ -76,20 +77,24 @@ fun CategoryCard(
                     )
                 }
         ) {
-            Row(
+            Box(
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .height(36.dp)
                     .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
+                contentAlignment = Alignment.Center
             ) {
                 Text(
                     text = name,
-                    style = MaterialTheme.typography.bodyLarge.copy(
-                        fontWeight = FontWeight.Medium
+                    style = MaterialTheme.typography.bodySmall.copy(
+                        fontWeight = FontWeight.SemiBold
                     ),
-                    color = MaterialTheme.colorScheme.secondary
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                    color = MaterialTheme.colorScheme.secondary,
+                    modifier = Modifier
+                        .align(Alignment.CenterStart)
+                        .sizeIn(maxWidth = 120.dp)
                 )
                 Text(
                     text = stringResource(R.string.view_all),
@@ -97,9 +102,9 @@ fun CategoryCard(
                     color = MaterialTheme.colorScheme.secondary.copy(
                         alpha = 0.7f
                     ),
-                    modifier = Modifier.clickable {
-                        onClick()
-                    }
+                    modifier = Modifier
+                        .align(Alignment.CenterEnd)
+                        .clickable { onClick() }
                 )
             }
             HorizontalDivider()
@@ -127,7 +132,7 @@ private fun CategoryCardPreview() {
         Surface {
             CategoryCard(
                 name = "Cake",
-                imageUrl = "",
+                imageId = R.drawable.cake_category,
                 itemList = listOf(),
                 onClick = {  }
             )
