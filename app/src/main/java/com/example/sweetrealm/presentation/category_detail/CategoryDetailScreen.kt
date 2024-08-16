@@ -76,9 +76,6 @@ fun CategoryDetailScreen(
                 placeholder = {
                     Text(text = "Search")
                 },
-                prefix = {
-                    Text(text = "Search")
-                },
                 maxLines = 1
             )
         }
@@ -90,7 +87,15 @@ fun CategoryDetailScreen(
             modifier = Modifier.fillMaxHeight()
         ) {
             items(categoryDetailState.sweets){
-                CategoryDetailCard(id = it.id, name = it.name, imageUrl = it.imageUrl, onClick = onItemClick, modifier = Modifier.background(MaterialTheme.colorScheme.surface))
+                CategoryDetailCard(
+                    id = it.id,
+                    name = it.name,
+                    imageUrl = it.imageUrl,
+                    onClick = onItemClick,
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .background(MaterialTheme.colorScheme.surface)
+                )
             }
         }
     }

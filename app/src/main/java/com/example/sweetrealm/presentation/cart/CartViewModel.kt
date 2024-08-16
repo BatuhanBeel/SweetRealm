@@ -18,6 +18,7 @@ class CartViewModel @Inject constructor(
 ) : ViewModel() {
 
     var cartState by mutableStateOf(CartState())
+    var isAlertDialogOpen by mutableStateOf(false)
 
     init {
         loadCartItems()
@@ -25,14 +26,21 @@ class CartViewModel @Inject constructor(
 
     private fun loadCartItems() {
         viewModelScope.launch {
-            val items = repository.getAllCartItems().flowOn(Dispatchers.IO)
-            items.collect {
-                if(it.isNotEmpty()){
-                    cartState = cartState.copy(
-                        shoppingList = it,
-                        isLoading = false
-                    )
-                }
+            repository.getAllCartItems()
+                .flowOn(Dispatchers.IO)
+                .collect {
+                    cartState = if(it.isNotEmpty()){
+                        cartState.copy(
+                            shoppingList = it,
+                            isLoading = false
+                        )
+                    } else{
+                        cartState.copy(
+                            shoppingList = emptyList(),
+                            isLoading = false
+                        )
+                    }
+
             }
         }
     }
@@ -67,6 +75,7 @@ class CartViewModel @Inject constructor(
                 }
             }
             is CartEvent.OnDeleteAllClick -> {
+                isAlertDialogOpen = false
                 viewModelScope.launch(Dispatchers.IO) {
                     repository.deleteAllCartItem()
                 }
@@ -75,6 +84,5 @@ class CartViewModel @Inject constructor(
 
             }
         }
-
     }
 }

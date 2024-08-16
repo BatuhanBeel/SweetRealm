@@ -23,10 +23,14 @@ class DetailViewModel @Inject constructor(
     private var _sweet = MutableStateFlow<Sweet?>(null)
     val sweet = _sweet.asStateFlow()
 
+
+    private var sweetId: Int = 0
     var quantity by mutableIntStateOf(0)
+
 
     fun loadSweet(id: Int){
         viewModelScope.launch(Dispatchers.IO) {
+            sweetId = id
             _sweet.value = repository.getItemById(id)
         }
     }
@@ -34,15 +38,7 @@ class DetailViewModel @Inject constructor(
     fun onEvent(event: DetailEvent){
         when(event){
             is DetailEvent.OnFavoriteClick -> {
-                viewModelScope.launch(Dispatchers.IO) {
-                    _sweet.value?.let {
-                        repository.insertSweetItem(
-                            it.copy(
-                                isFavorite = !it.isFavorite
-                            )
-                        )
-                    }
-                }
+                onFavoriteClicked()
             }
             is DetailEvent.OnIncreaseClick -> {
                 if (quantity < 10){
@@ -78,6 +74,19 @@ class DetailViewModel @Inject constructor(
                     }
                 }
             }
+        }
+    }
+
+    private fun onFavoriteClicked(){
+        viewModelScope.launch(Dispatchers.IO){
+            _sweet.value?.let {
+                repository.insertSweetItem(
+                    it.copy(
+                        isFavorite = !it.isFavorite
+                    )
+                )
+            }
+            _sweet.value = repository.getItemById(sweetId)
         }
     }
 }

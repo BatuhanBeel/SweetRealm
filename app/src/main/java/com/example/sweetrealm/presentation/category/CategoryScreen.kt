@@ -37,8 +37,7 @@ fun CategoryScreen(
                 name = it.name,
                 imageId = it.imageId,
                 itemList = state.sweets
-                    .filter { sweet -> sweet.category == it.name }
-                    .take(5),
+                    .filter { sweet -> sweet.category == it.name },
                 onClick = { viewAllOnClick(it.name) })
         }
     }

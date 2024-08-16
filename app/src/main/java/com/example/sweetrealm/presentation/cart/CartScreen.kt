@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.DeleteForever
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -36,13 +37,15 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.sweetrealm.R
 import com.example.sweetrealm.presentation.cart.components.CartItem
+import com.example.sweetrealm.presentation.cart.components.formatFloat
+import com.example.sweetrealm.presentation.components.SweetRealmDialog
 
 @Composable
 fun CartScreen(
     viewModel: CartViewModel = hiltViewModel()
 ) {
     val cartState = viewModel.cartState
-    val totalPrice by remember(cartState) {
+    val totalPrice by remember(cartState.shoppingList) {
         mutableFloatStateOf(
             cartState.shoppingList
                 .filter { it.isSelected }
@@ -50,6 +53,7 @@ fun CartScreen(
                 .sum()
         )
     }
+    val isAlertDialogActive = viewModel.isAlertDialogOpen
 
     val state = rememberLazyListState()
     Scaffold(
@@ -70,12 +74,17 @@ fun CartScreen(
                         modifier = Modifier.align(Alignment.Center)
                     )
                     IconButton(
-                        onClick = { viewModel.onEvent(CartEvent.OnDeleteAllClick) },
-                        modifier = Modifier.align(Alignment.CenterEnd)
+                        onClick = { viewModel.isAlertDialogOpen = true },
+                        modifier = Modifier.align(Alignment.CenterEnd),
+                        enabled = cartState.shoppingList.isNotEmpty()
                     ) {
                         Icon(
                             imageVector = Icons.Filled.DeleteForever,
-                            tint = MaterialTheme.colorScheme.primary,
+                            tint = if (cartState.shoppingList.isNotEmpty())
+                                MaterialTheme.colorScheme.primary
+                            else MaterialTheme.colorScheme.onSurface.copy(
+                                alpha = 0.12f
+                            ),
                             contentDescription = "Delete All Item"
                         )
                     }
@@ -101,7 +110,7 @@ fun CartScreen(
                         modifier = Modifier.align(Alignment.TopStart)
                     )
                     Text(
-                        text = "$ $totalPrice",
+                        text = "$ ${formatFloat(totalPrice)}",
                         style = MaterialTheme.typography.titleLarge.copy(
                             fontWeight = FontWeight.SemiBold
                         ),
@@ -112,6 +121,7 @@ fun CartScreen(
                         colors = ButtonDefaults.buttonColors(
                             containerColor = MaterialTheme.colorScheme.primary
                         ),
+                        enabled = cartState.shoppingList.isNotEmpty(),
                         shape = RoundedCornerShape(8.dp),
                         onClick = { viewModel.onEvent(CartEvent.OnGoToCheckoutClick) },
                         modifier = Modifier
@@ -132,28 +142,39 @@ fun CartScreen(
             }
         }
     ) { innerPadding ->
-        if (!cartState.isLoading) {
-            LazyColumn(
-                state = state,
-                contentPadding = innerPadding,
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier
-                    .padding(horizontal = 4.dp, vertical = 8.dp)
-                    .fillMaxSize()
-            ) {
-                items(cartState.shoppingList, key = { it.id }) {
-                    CartItem(
-                        name = it.name,
-                        imageUrl = it.imageUrl,
-                        price = it.price,
-                        count = it.count,
-                        isChecked = it.isSelected,
-                        onCheckedClick = { viewModel.onEvent(CartEvent.OnCheckboxClick(it)) },
-                        onDecreaseClicked = { viewModel.onEvent(CartEvent.OnDecreaseClick(it)) },
-                        onIncreaseClicked = { viewModel.onEvent(CartEvent.OnIncreaseClick(it)) })
-                }
+        LazyColumn(
+            state = state,
+            contentPadding = innerPadding,
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier
+                .padding(horizontal = 4.dp, vertical = 8.dp)
+                .fillMaxSize()
+        ) {
+            items(cartState.shoppingList, key = { it.id }) {
+                CartItem(
+                    name = it.name,
+                    imageUrl = it.imageUrl,
+                    price = it.price,
+                    count = it.count,
+                    isChecked = it.isSelected,
+                    onCheckedClick = { viewModel.onEvent(CartEvent.OnCheckboxClick(it)) },
+                    onDecreaseClicked = { viewModel.onEvent(CartEvent.OnDecreaseClick(it)) },
+                    onIncreaseClicked = { viewModel.onEvent(CartEvent.OnIncreaseClick(it)) })
             }
-        } else {
+        }
+        if (isAlertDialogActive) {
+            SweetRealmDialog(
+                title = "Delete All",
+                text = "Do you want to delete all items?",
+                icon = Icons.Filled.Clear,
+                contentDescription = "Delete All",
+                onDismissRequest = { viewModel.isAlertDialogOpen = false },
+                onConfirmation = {
+                    viewModel.onEvent(CartEvent.OnDeleteAllClick)
+                }
+            )
+        }
+        if (cartState.isLoading) {
             Box(
                 modifier = Modifier
                     .padding(innerPadding)
@@ -166,7 +187,14 @@ fun CartScreen(
                     trackColor = MaterialTheme.colorScheme.surfaceVariant,
                 )
             }
-
+        } else if (cartState.shoppingList.isEmpty()) {
+            Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
+                Text(
+                    text = stringResource(R.string.your_shopping_cart_is_empty),
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            }
         }
     }
 }

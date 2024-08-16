@@ -81,7 +81,7 @@ fun CartItem(
             )
             Text(
                 text = name,
-                style = MaterialTheme.typography.bodyMedium.copy(
+                style = MaterialTheme.typography.bodySmall.copy(
                     fontWeight = FontWeight.SemiBold
                 ),
                 color = MaterialTheme.colorScheme.onSurface,
@@ -134,7 +134,7 @@ fun CartItem(
 
             }
             Text(
-                text = "$ $totalPrice",
+                text = "$ ${formatFloat(totalPrice)}",
                 style = MaterialTheme.typography.bodyLarge.copy(
                     fontWeight = FontWeight.SemiBold
                 ),
@@ -146,6 +146,10 @@ fun CartItem(
         }
         HorizontalDivider(modifier = Modifier.padding(vertical = 2.dp))
     }
+}
+
+fun formatFloat(value: Float): String {
+    return String.format("%.2f", value)
 }
 
 @Preview

@@ -31,6 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.sweetrealm.R
+import com.example.sweetrealm.presentation.cart.components.formatFloat
 import com.example.sweetrealm.ui.theme.SweetRealmTheme
 
 @Composable
@@ -103,7 +104,7 @@ fun DetailBody(
                     .align(Alignment.CenterHorizontally)
             )
             Text(
-                text = "$$price",
+                text = "$${formatFloat(price)}",
                 style = MaterialTheme.typography.headlineSmall.copy(
                     fontWeight = FontWeight.SemiBold
                 ),

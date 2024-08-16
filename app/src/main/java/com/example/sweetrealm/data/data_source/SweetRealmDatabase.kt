@@ -16,7 +16,7 @@ import javax.inject.Inject
 import javax.inject.Provider
 
 @Database(entities = [Sweet::class, SweetCategory::class, SweetCart::class], version = 1)
-abstract class SweetRealmDatabase(): RoomDatabase() {
+abstract class SweetRealmDatabase: RoomDatabase() {
     abstract fun getDao(): SweetDao
 
     class Callback @Inject constructor(

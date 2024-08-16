@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.sweetrealm.R
+import com.example.sweetrealm.presentation.cart.components.formatFloat
 import com.example.sweetrealm.ui.theme.SweetRealmTheme
 
 val CardPadding = 8.dp
@@ -116,7 +117,7 @@ fun SweetRealmCard(
                 }
 
                 Text(
-                    text = "$ $price",
+                    text = "$ ${formatFloat(price)}",
                     style = MaterialTheme.typography.labelLarge.copy(
                         fontWeight = FontWeight.SemiBold
                     ),

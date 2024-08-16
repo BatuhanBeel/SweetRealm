@@ -112,7 +112,6 @@ fun CategoryCard(
                 state = scrollState,
                 contentPadding = PaddingValues(4.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
-                userScrollEnabled = false,
                 modifier = Modifier
                     .padding(horizontal = 8.dp)
                     .fillMaxWidth()

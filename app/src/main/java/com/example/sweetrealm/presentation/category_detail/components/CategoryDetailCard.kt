@@ -1,6 +1,6 @@
 package com.example.sweetrealm.presentation.category_detail.components
 
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -13,15 +13,15 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.example.sweetrealm.R
 import com.example.sweetrealm.ui.theme.SweetRealmTheme
 
 @Composable
@@ -34,8 +34,7 @@ fun CategoryDetailCard(
 ) {
     Card(
         modifier = modifier
-            .padding(8.dp)
-            .size(150.dp,150.dp),
+            .size(180.dp,180.dp),
         shape = RoundedCornerShape(8.dp),
         elevation = CardDefaults.elevatedCardElevation(),
         onClick = { onClick(id) }
@@ -45,19 +44,23 @@ fun CategoryDetailCard(
             contentScale = ContentScale.Crop,
             contentDescription = "Category Image",
             modifier = Modifier
-                .height(125.dp)
+                .height(140.dp)
                 .clip(RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp))
 
         )
-        Text(
-            text = name,
-            style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            textAlign = TextAlign.Center,
-            modifier = Modifier
-                .height(25.dp)
-                .fillMaxWidth()
-        )
+        Box(modifier = Modifier
+            .height(40.dp)
+            .fillMaxWidth(),
+            contentAlignment = Alignment.Center
+        ){
+            Text(
+                text = name,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                textAlign = TextAlign.Center,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
     }
 }
 
@@ -66,7 +69,7 @@ fun CategoryDetailCard(
 private fun CategoryCardPreview() {
     SweetRealmTheme {
         Surface {
-            Column(Modifier.padding(8.dp)) {
+            Column {
                 CategoryDetailCard(id = 0, name = "Cake", imageUrl = "", onClick = {  })
             }
 
