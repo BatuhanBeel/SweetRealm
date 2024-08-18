@@ -22,5 +22,6 @@ SweetRealm helps users explore various sweets, categorized for easy navigation. 
 
 ![Screens](screenshots/all_screens.png)
 
+https://github.com/user-attachments/assets/73dd07d4-772a-4e23-844f-7fcd976895f0
 
 Data for desserts provided by TheMealDB.
