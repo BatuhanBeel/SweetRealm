@@ -1,5 +1,7 @@
 package com.example.sweetrealm.presentation.detail
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,6 +25,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -31,11 +34,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.sweetrealm.R
 import com.example.sweetrealm.presentation.detail.components.DetailBody
+import com.example.sweetrealm.util.UiEvent
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun DetailScreen(
     navArgument: Int,
     onPopUpClick: () -> Unit,
+    context: Context = LocalContext.current,
     viewModel: DetailViewModel = hiltViewModel()
 ) {
 
@@ -43,6 +49,15 @@ fun DetailScreen(
 
     LaunchedEffect(key1 = navArgument) {
         viewModel.loadSweet(navArgument)
+    }
+    LaunchedEffect(key1 = true) {
+        viewModel.eventFlow.collectLatest { event ->
+            when(event) {
+                is UiEvent.ShowSnackbar -> {
+                    Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 
     Scaffold(

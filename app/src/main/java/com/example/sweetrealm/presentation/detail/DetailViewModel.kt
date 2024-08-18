@@ -8,9 +8,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.sweetrealm.domain.repository.SweetRealmRepository
 import com.example.sweetrealm.domain.model.Sweet
 import com.example.sweetrealm.domain.model.SweetCart
+import com.example.sweetrealm.util.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -22,6 +25,9 @@ class DetailViewModel @Inject constructor(
 
     private var _sweet = MutableStateFlow<Sweet?>(null)
     val sweet = _sweet.asStateFlow()
+
+    private val _eventFlow = MutableSharedFlow<UiEvent>()
+    val eventFlow = _eventFlow.asSharedFlow()
 
 
     private var sweetId: Int = 0
@@ -71,6 +77,7 @@ class DetailViewModel @Inject constructor(
                                 )
                             )
                         }
+                        _eventFlow.emit(UiEvent.ShowSnackbar("Dessert added to card"))
                     }
                 }
             }

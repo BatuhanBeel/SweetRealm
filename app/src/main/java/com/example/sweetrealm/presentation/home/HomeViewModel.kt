@@ -1,8 +1,11 @@
 package com.example.sweetrealm.presentation.home
 
+import android.view.WindowInsets
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalView
+import androidx.core.view.ViewCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sweetrealm.domain.repository.SweetRealmRepository
@@ -18,7 +21,6 @@ class HomeViewModel @Inject constructor(
     private val repository: SweetRealmRepository
 ) : ViewModel() {
 
-
     var state by mutableStateOf(HomeState())
         private set
 
@@ -30,15 +32,18 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             val favoritesFlow = repository.getItemsFilterByFavorite().flowOn(Dispatchers.IO)
             val newlyAddedFlow = repository.getItemsFilterByNew().flowOn(Dispatchers.IO)
+            val mostPopularFlow = repository.getAllItem().flowOn(Dispatchers.IO)
             combine(
                 favoritesFlow,
-                newlyAddedFlow
-            ) { favorites, newlyAdded ->
-                Pair(favorites, newlyAdded)
-            }.collect { (favorites, newlyAdded) ->
-                if (favorites.isNotEmpty() || newlyAdded.isNotEmpty()) {
+                newlyAddedFlow,
+                mostPopularFlow
+            ) { favorites, newlyAdded, mostPopular ->
+                Triple(favorites, newlyAdded, mostPopular)
+            }.collect { (favorites, newlyAdded, mostPopular) ->
+                if (favorites.isNotEmpty() || newlyAdded.isNotEmpty() || mostPopular.isNotEmpty()) {
                     state = state.copy(
                         newlyAddedList = newlyAdded,
+                        mostPreferredList = mostPopular.subList(8,15),
                         favoritesList = favorites
                     )
                 }

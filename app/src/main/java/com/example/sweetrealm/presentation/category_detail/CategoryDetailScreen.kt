@@ -52,7 +52,7 @@ fun CategoryDetailScreen(
     Column {
         Row(
             modifier = Modifier
-                .padding(8.dp)
+                .padding(horizontal = 8.dp, vertical = 16.dp)
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp)

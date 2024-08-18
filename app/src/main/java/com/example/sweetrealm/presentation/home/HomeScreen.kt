@@ -49,7 +49,7 @@ fun HomeScreen(
             color = MaterialTheme.colorScheme.outlineVariant
         )
 
-        MostPreferredBody(itemList = state.favoritesList, itemOnClick = itemOnClick)
+        MostPreferredBody(itemList = state.mostPreferredList, itemOnClick = itemOnClick)
 
         HorizontalDivider(
             modifier = Modifier.padding(vertical = 4.dp),
