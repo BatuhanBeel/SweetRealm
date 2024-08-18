@@ -20,10 +20,7 @@ SweetRealm helps users explore various sweets, categorized for easy navigation. 
 
 ## Screenshots
 
-![Home](screenshots/Home.png)
-![Category](screenshots/Category.png)
-![Cart](screenshots/Cart.png)
-![Sweet Detail](screenshots/Sweet_detail.png)
-![Category Detail](screenshots/Category_detail.png)
+![Screens](screenshots/all_screens.png)
+
 
 Data for desserts provided by TheMealDB.
