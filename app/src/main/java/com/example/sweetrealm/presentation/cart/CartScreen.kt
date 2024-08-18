@@ -158,7 +158,8 @@ fun CartScreen(
                     count = it.count,
                     isChecked = it.isSelected,
                     onCheckedClick = { viewModel.onEvent(CartEvent.OnCheckboxClick(it)) },
-                    onDecreaseClicked = { viewModel.onEvent(CartEvent.OnDecreaseClick(it)) },
+                    onDecreaseClicked = {
+                        viewModel.onEvent(CartEvent.OnDecreaseClick(it)) },
                     onIncreaseClicked = { viewModel.onEvent(CartEvent.OnIncreaseClick(it)) })
             }
         }
@@ -174,6 +175,7 @@ fun CartScreen(
                 }
             )
         }
+
         if (cartState.isLoading) {
             Box(
                 modifier = Modifier

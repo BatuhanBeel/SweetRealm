@@ -67,11 +67,16 @@ class CartViewModel @Inject constructor(
             }
             is CartEvent.OnDecreaseClick ->{
                 viewModelScope.launch(Dispatchers.IO) {
-                    repository.insertCartItem(
-                        event.item.copy(
-                            count = event.item.count - 1
+                    if(event.item.count == 1){
+                        repository.deleteCartItem(event.item)
+                    }
+                    else{
+                        repository.insertCartItem(
+                            event.item.copy(
+                                count = event.item.count - 1
+                            )
                         )
-                    )
+                    }
                 }
             }
             is CartEvent.OnDeleteAllClick -> {
